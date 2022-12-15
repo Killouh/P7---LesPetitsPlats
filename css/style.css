@@ -1,0 +1,304 @@
+
+
+* {
+  box-sizing: border-box;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+body {
+  padding: 30px 100px;
+}
+
+
+/* Header */
+
+header {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15px;
+}
+
+/* --------------------------- Search section --------------------------- */
+/* ------------------ Search bar ------------------ */
+.appliance-color {
+  background-color: #68d9a4;
+}
+.ingredients-color {
+  background-color: #3282f7;
+}
+.ustensils-color {
+  background-color: #ed6454;
+}
+
+#searchBar-container {
+  position: relative;
+  padding-bottom: 5px;
+}
+.searchBar[data-error]::after {
+  content: attr(data-error);
+  font-size: 0.6em;
+  color: #e54858;
+  display: block;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  text-align: left;
+  line-height: 0.9;
+  opacity: 0;
+  transition: 0.3s;
+}
+.searchBar[data-error-visible="true"]::after {
+  opacity: 1;
+}
+
+#searchBar {
+  width: 100%;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  border: none;
+}
+#searchBar::placeholder {
+  color: black;
+  opacity: 25%;
+}
+#searchBar-container i {
+  position: absolute;
+  top: 25%;
+  right: 15px;
+  font-size: 1.5em;
+}
+
+#advancedSelectedFilterTags-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px 15px;
+  padding-bottom: 15px;
+}
+
+.advancedSelectedFilterTag {
+  display: flex;
+  color: white;
+  padding: 10px 20px;
+  align-items: center;
+  border-radius: 5px;
+}
+.advancedSelectedFilterTag p {
+  font-weight: 700;
+  font-size: 14px;
+}
+.advancedSelectedFilterTag button {
+  border: none;
+  background-color: unset;
+  color: white;
+}
+.advancedSelectedFilterTag i {
+  display: flex;
+  padding-left: 15px;
+  font-size: 20px;
+}
+
+/* ------------------ Search menus ------------------ */
+
+#advancedFilters-container {
+  padding-bottom: 25px;
+}
+
+menu {
+  list-style: none;
+}
+
+div > menu {
+  display: flex;
+  list-style: none;
+  gap: 10px;
+  justify-content: flex-start;
+}
+@media screen and (max-width: 600px) {
+  div > menu {
+    flex-direction: column;
+  }
+}
+div > menu > li {
+  position: relative;
+}
+div > menu > li > button {
+  color: white;
+  padding: 23px 60px 23px 20px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  text-align: left;
+  position: relative;
+}
+@media screen and (max-width: 600px) {
+  div > menu > li > button {
+    width: 100%;
+  }
+}
+div > menu > li > button > input {
+  display: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.677);
+  left: 0;
+  width: 100%;
+  min-width: calc(100vw - (200px + 420px));
+  padding: 0;
+}
+div > menu > li > button > span {
+  line-height: 22px;
+}
+
+div > menu > li > button > input::placeholder {
+  color: rgba(255, 255, 255, 0.677);
+  font-weight: 400;
+  width: fit-content;
+}
+
+div > menu > li > menu {
+  display: flex;
+  position: absolute;
+  row-gap: 7px;
+  border-radius: 0 0 5px 5px;
+  padding: 10px 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  box-shadow: 0px 12px 12px 0px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  color: white;
+  width: 100%;
+  top: 65px;
+  visibility: hidden;
+  max-height: 287px;
+  overflow-y: scroll;
+}
+div > menu > li.active > menu {
+  visibility: visible;
+}
+div > menu > li.active > button > input {
+  display: flex;
+}
+div > menu > li.active > button > span {
+  display: none;
+}
+
+div > menu > li > menu > li {
+  width: 30%;
+}
+@media screen and (max-width: 900px) {
+  div > menu > li > menu > li {
+    width: 47%;
+  }
+}
+@media screen and (max-width: 700px) {
+  div > menu > li > menu > li {
+    width: 100%;
+  }
+}
+
+div > menu > li > menu > li > button {
+  background-color: transparent;
+  text-align: left;
+  border: none;
+  color: white;
+  padding: 2px;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+div > menu > li > menu > li > button:hover {
+  background-color: rgba(255, 255, 255, 0.306);
+  border-radius: 5px;
+  padding: 2px;
+}
+
+div > menu > li > button:after {
+  position: absolute;
+  content: "";
+  top: 28px;
+  right: 20px;
+  width: 16px;
+  height: 11px;
+  background: url(../assets/downarrow.svg);
+  transform: rotate(180deg);
+  z-index: 1;
+}
+div > menu > li.active > button:after {
+  transform: none;
+}
+
+/* ------------------ NO Result Recipes div ------------------ */
+#noResults {
+  display: none;
+  padding-bottom: 15px;
+}
+/* ------------------ Result Recipes section ------------------ */
+
+#resultRecipes-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 50px;
+}
+
+.recipe-card {
+  width: calc((100% - 100px) / 3);
+  border-radius: 5px 5px 0 0;
+  background-color: #e7e7e7;
+}
+@media screen and (max-width: 900px) {
+  .recipe-card {
+    width: calc((100% - 50px) / 2);
+  }
+}
+@media screen and (max-width: 600px) {
+  .recipe-card {
+    width: 100%;
+  }
+}
+
+.ImgPlaceholder {
+  background-color: #c7bebe;
+  height: 150px;
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+}
+.recipeText-container {
+  padding: 20px;
+  border-radius: 0 0 5px 5px;
+}
+
+.recipeText-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+.recipeText-header p {
+  font-weight: 700;
+  white-space: nowrap;
+  padding-left: 15px;
+}
+
+.recipeText-listAndDescription {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 12px;
+  font-weight: 400;
+}
+.recipeText-listAndDescription ul {
+  width: 45%;
+  white-space: normal;
+}
+.recipeText-listAndDescription ul strong {
+  font-weight: 700;
+}
+.recipeText-listAndDescription p {
+  font-family: "roboto", sans-serif;
+  width: 55%;
+}
