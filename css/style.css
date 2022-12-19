@@ -10,6 +10,10 @@ body {
   padding: 30px 100px;
 }
 
+ul{
+  list-style-type: none;
+}
+
 
 /* Header */
 
@@ -243,6 +247,7 @@ div > menu > li.active > button:after {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  
   gap: 50px;
 }
 
@@ -250,7 +255,10 @@ div > menu > li.active > button:after {
   width: calc((100% - 100px) / 3);
   border-radius: 5px 5px 0 0;
   background-color: #e7e7e7;
+  height: 364px;
 }
+
+
 @media screen and (max-width: 900px) {
   .recipe-card {
     width: calc((100% - 50px) / 2);
@@ -264,41 +272,67 @@ div > menu > li.active > button:after {
 
 .ImgPlaceholder {
   background-color: #c7bebe;
-  height: 150px;
+  height: 178px;
   width: 100%;
   border-radius: 5px 5px 0 0;
 }
-.recipeText-container {
-  padding: 20px;
-  border-radius: 0 0 5px 5px;
+
+.header-card{
+  display: flex;
+  justify-content:  space-between;
+  padding: 0 0 0 20px;
+  font-size: 18px;
 }
 
-.recipeText-header {
+
+
+.time-card{
   display: flex;
-  justify-content: space-between;
-  padding-bottom: 20px;
+  flex-direction: row-reverse;
+  align-items: center;
+  padding-right: 20px;
+  
 }
-.recipeText-header p {
+.time-card p{
+  font-weight: bolder;
+  flex-wrap: wrap;
+}
+.fa-clock{
+  padding-right: 10px;
+}
+
+.text-card{
+  display: flex;
+  flex-direction: row;
+  gap:10%;
+  
+}
+
+.recipe-card ul {
+  padding: 0 0 0 20px;
+  margin: 0;
+  width:60%;
+ }
+
+ .recipe-card li {
   font-weight: 700;
-  white-space: nowrap;
-  padding-left: 15px;
-}
-
-.recipeText-listAndDescription {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
   font-size: 12px;
-  font-weight: 400;
+ }
+
+ .unit-quantity {
+    font-weight: 100;
+    font-size: 12px;
+    font-family: 'Lato';
+ }
+.text-card p{
+  margin : 0;
+  font-size: 12px;
+  font-family: 'Roboto';
+  height: 85px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }
-.recipeText-listAndDescription ul {
-  width: 45%;
-  white-space: normal;
-}
-.recipeText-listAndDescription ul strong {
-  font-weight: 700;
-}
-.recipeText-listAndDescription p {
-  font-family: "roboto", sans-serif;
-  width: 55%;
-}
+
+
