@@ -1,7 +1,5 @@
-import { recipes } from '../../data/recipes.js'
-
 // Génère les cartes de recettes
-function generateRecipeHTML(recipes) {
+ export function generateRecipeHTML(recipes) {
   let html = "";
   for (let recipe of recipes) {
     html += '<article class = "recipe-card">'
@@ -16,10 +14,10 @@ function generateRecipeHTML(recipes) {
     html += `<div class = "text-card">`;
     html += "<ul>";
     for (let ingredient of recipe.ingredients) {
-      html += `<li>${ingredient.ingredient}: `;
+      html += `<li>${ingredient.ingredient}`;
       if (ingredient.quantity) {
 
-        html += `<span class ="unit-quantity">${ingredient.quantity}`;
+        html += `: <span class ="unit-quantity">${ingredient.quantity}`;
       }
       if (ingredient.unit) {
         
@@ -35,9 +33,29 @@ function generateRecipeHTML(recipes) {
         if (ingredient.unit.includes("cuillères à soupe"))  {
           ingredient.unit = ingredient.unit.replace(/cuillères à soupe/gi, 'cuillères');
         }
-        // Met cuillère au singulier  si une seule
+        // Met au singulier si un seul
         if (ingredient.quantity == 1) {
           ingredient.unit = ingredient.unit.replace(/cuillères/gi, 'cuillère');
+        }
+        // Met au singulier si un seul
+        if (ingredient.quantity == 1) {
+          ingredient.unit = ingredient.unit.replace(/sachets/gi, 'sachet');
+        }
+        // Met au singulier si un seul
+        if (ingredient.quantity == 1) {
+          ingredient.unit = ingredient.unit.replace(/pincées/gi, 'pincée');
+        }
+        // Met au singulier si un seul
+        if (ingredient.quantity == 1) {
+          ingredient.unit = ingredient.unit.replace(/tranches/gi, 'tranche');
+        }
+        // Met au singulier si un seul
+        if (ingredient.quantity == 1) {
+          ingredient.unit = ingredient.unit.replace(/boites/gi, 'boite');
+        }
+        // Met au singulier si un seul
+        if (ingredient.quantity == 1) {
+          ingredient.unit = ingredient.unit.replace(/barquettes/gi, 'barquette');
         }
         html += ` ${ingredient.unit}</span>`;
       }
@@ -56,6 +74,4 @@ function generateRecipeHTML(recipes) {
   return html;
 }
 
-const recipeListDiv = document.getElementById("resultRecipes-container");
-const recipeHTML = generateRecipeHTML(recipes);
-recipeListDiv.innerHTML += recipeHTML;
+
