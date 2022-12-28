@@ -5,8 +5,9 @@ export function generateRecipeHTML(recipes) {
   for (let recipe of recipes) {
 
     const recipeElement = document.getElementById(recipe.id);
+    // vérifie si l'id est déjà affiché 
     if (!recipeElement) {
-
+      // Génère la carte de recette
       html += `<article class = "recipe-card" id='${recipe.id}'>`
       html += '<img class = "ImgPlaceholder">';
       html += '<div class = "header-card">'
@@ -77,7 +78,6 @@ export function generateRecipeHTML(recipes) {
     }
   }
   
-
 
   return html;
 }

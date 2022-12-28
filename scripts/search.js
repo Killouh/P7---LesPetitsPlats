@@ -1,25 +1,109 @@
 import { recipes } from '../../data/recipes.js'
 import { generateRecipeHTML } from './factories/recipesFactory.js'
+import { createTagList, getListBlock, createTagListContent } from './factories/tagsFactory.js'
 
 
 
 
-// Genere les cartes de recettes
+//DOM 
 const recipeListDiv = document.getElementById("resultRecipes-container");
 const recipeHTML = generateRecipeHTML(recipes);
+
+// Genere les cartes de recettes
 recipeListDiv.innerHTML += recipeHTML;
 
 
 
+// Genere les boutons Tags
+
+function displayListButtons(array) {
+
+    const buttonsEntitled = createTagList(array);
+    buttonsEntitled.forEach(element => getListBlock(element));
+
+    return buttonsEntitled;
+}
+
+//Traduit les titre des tag généré en JS
+function translatebuttons() {
+    const ingredientsTag = document.getElementById("span-ingredients");
+    const applianceTag = document.getElementById("span-appliance");
+    const ustensusilsTag = document.getElementById("span-ustensils");
+    const ingredientsSearchBar = document.getElementById("search-ingredients");
+    const applianceSearchBar = document.getElementById("search-appliance");
+    const ustensusilsSearchBar = document.getElementById("search-ustensils");
+
+    if (ingredientsTag.textContent = "ingredients") {
+        ingredientsTag.innerText = "Ingrédients";
+    }
+    if (applianceTag.textContent = "appliance") {
+        applianceTag.innerText = "Appareil";
+    }
+    if (ustensusilsTag.textContent = "ustensils") {
+        ustensusilsTag.innerText = "Ustensiles";
+    }
+    if (ingredientsSearchBar.placeholder = "Rechercher dans ingredients") {
+        ingredientsSearchBar.placeholder = "Rechercher dans Ingrédients";
+    }
+    if (applianceSearchBar.placeholder = "Rechercher dans appliance") {
+        applianceSearchBar.placeholder = "Rechercher dans Appareil";
+    }
+    if (ustensusilsSearchBar.placeholder = "Rechercher dans ustensils") {
+        ustensusilsSearchBar.placeholder = "Rechercher dans Ustensiles";
+    }
+}
+
+
+
+displayListButtons(recipes);
+translatebuttons();
+
+
+//Génère le contenu des boutons
+function displayListContent() {
+    const TagListContentObject = createTagListContent(recipes);
+    
+    // Génère le contenu du tagg ustensils
+    const ustensilsObject = 'ustensilsTagHtml';
+    const ustensilsTagHtmlDiv = document.getElementById("ustensils-list")
+    ustensilsTagHtmlDiv.innerHTML += TagListContentObject[ustensilsObject];
+    // Fusionne et supprime les doublons du tagg ustensil
+
+    
+
+
+
+    // Génère le contenu du tag ingredient
+    const ingredientsObject = 'ingredientsTagHtml';
+    const ingredientsTagHtmlDiv = document.getElementById("ingredients-list")
+    ingredientsTagHtmlDiv.innerHTML += TagListContentObject[ingredientsObject];
+
+    // génère le contenu du tagg appliance
+    const applianceObject = 'applianceTagHtml';
+    const applianceTagHtmlDiv = document.getElementById("appliance-list")
+    applianceTagHtmlDiv.innerHTML += TagListContentObject[applianceObject];
+
+
+
+}
+
+
+displayListContent();
+
+
+
+
+
+
+// Searchbar 
 const searchInput = document.querySelector('#searchBar');
 const resultsContainer = document.querySelector('#resultRecipes-container');
 const noResult = document.getElementById("noResults");
 
-// Revoir les normalize (voir note Fonction)
 searchInput.addEventListener('keyup', () => {
     const searchTerm = searchInput.value.toLowerCase();
-    
 
+    // Regles searchbar si saisie nulle ou < 3
     if (searchTerm.length === 0) {
 
         const recipeListDiv = document.getElementById("resultRecipes-container");
@@ -35,7 +119,7 @@ searchInput.addEventListener('keyup', () => {
         noResult.style.display = "none";
         return;
     }
-   
+
 
     // Recherche sur la searchbar pour les ingredients et les noms de plat //
 
@@ -44,9 +128,9 @@ searchInput.addEventListener('keyup', () => {
 
         console.log(searchTerm_normalized);
         return recipe.name.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized) ||
-           recipe.ingredients.some((ingredient) => ingredient.ingredient.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized));
-           
-      });
+            recipe.ingredients.some((ingredient) => ingredient.ingredient.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized));
+
+    });
 
 
     resultsContainer.innerHTML = '';
@@ -68,18 +152,3 @@ searchInput.addEventListener('keyup', () => {
 
 
 
-
-
-//   function searchRecipes(searchTerm) {
-//     const normalizedSearchTerm = typeof searchTerm === 'string' ? searchTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : searchTerm;
-//     return recipes.filter(recipe => {
-//       const nameMatch = typeof recipe.name === 'string' ? recipe.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(normalizedSearchTerm) : false;
-//       const ingredients = recipe.ingredients.map(ingredient => typeof ingredient === 'string' ? ingredient.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : ingredient);
-//       const ingredientMatch = ingredients.some(ingredient => ingredient.includes(normalizedSearchTerm));
-//       return nameMatch || ingredientMatch;
-//     });
-//   }
-
-//test à intégrer a la fonction recherche
-    // var string_norm = string.normalize('NFD').replace(/\p{Diacritic}/gu, ""); 
-    // console.log(string_norm);

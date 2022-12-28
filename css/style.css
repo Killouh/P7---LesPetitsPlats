@@ -13,6 +13,10 @@ body {
 ul{
   list-style-type: none;
 }
+menu{
+  margin : 0;
+  padding: 0;
+}
 
 
 /* Header */
@@ -108,7 +112,9 @@ header {
 
 #advancedFilters-container {
   padding-bottom: 25px;
+  
 }
+
 
 menu {
   list-style: none;
@@ -137,6 +143,8 @@ div > menu > li > button {
   border-radius: 5px;
   text-align: left;
   position: relative;
+  width: 170px;
+  height: 70px;
 }
 @media screen and (max-width: 600px) {
   div > menu > li > button {
@@ -144,7 +152,7 @@ div > menu > li > button {
   }
 }
 div > menu > li > button > input {
-  display: none;
+  /* display: none; ENLEVER */ 
   border: none;
   color: rgba(255, 255, 255, 0.677);
   left: 0;
@@ -173,11 +181,12 @@ div > menu > li > menu {
   box-shadow: 0px 12px 12px 0px rgba(0, 0, 0, 0.2);
   z-index: 2;
   color: white;
-  width: 100%;
+  width: 500%; /* A ENLEVER AUSSI */
   top: 65px;
-  visibility: hidden;
+  /*visibility: hidden; POUR LES TESTER A ENLEVER ENSUITE*/
   max-height: 287px;
   overflow-y: scroll;
+  
 }
 div > menu > li.active > menu {
   visibility: visible;
@@ -228,7 +237,7 @@ div > menu > li > button:after {
   right: 20px;
   width: 16px;
   height: 11px;
-  background: url(../assets/downarrow.svg);
+  background: url(../asset/downarrow.svg);
   transform: rotate(180deg);
   z-index: 1;
 }
