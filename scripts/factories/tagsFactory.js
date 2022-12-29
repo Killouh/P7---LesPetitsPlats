@@ -22,10 +22,13 @@ export function getListBlock(element) {
   liBlock.className = 'advancedFilters';
   const divButton = document.createElement('button');
   divButton.setAttribute('class', `advancedFilters-button ${element}-color`);
+  divButton.setAttribute('type', `button`);
   const divButtonName = document.createElement('span');
+  const divArrow = document.createElement('div')
 
   divButtonName.setAttribute('id', `span-${element}`);
   divButtonName.innerText = element;
+  divArrow.setAttribute('class', `menuArrow`);
 
 
 
@@ -43,7 +46,10 @@ export function getListBlock(element) {
   advancedFiltersMenu.appendChild(liBlock);
   liBlock.appendChild(divButton);
   divButton.appendChild(divButtonName);
+  divButton.appendChild(divArrow);
   divButton.appendChild(divButtonSearchBar);
+ 
+  
   liBlock.appendChild(menuBlock);
 
 }
@@ -54,6 +60,31 @@ export function getListBlock(element) {
 // Créer la liste de tagg 
 
 export function createTagListContent(recipes) {
+
+  // Créer liste des ingrédients
+  let ingredientsArray = [];
+
+  for (let recipe of recipes) {
+    for (let ingredient of recipe.ingredients) {
+      ingredientsArray.push({ id: Math.random() * 200 | 0, name: ingredient.ingredient });
+    }
+  }
+
+  // Créer liste des appareils
+  let applianceArray = [];
+
+  for (let appliance of recipes) {
+    applianceArray.push({ id: Math.random() * 200 | 0, name: appliance.appliance });
+  }
+
+  //Créer liste des ustensiles 
+  let ustensilArray = [];
+
+  for (let ustensils of recipes) {
+    for (let ustensil of ustensils.ustensils) {
+      ustensilArray.push({ id: Math.random() * 200 | 0, name: ustensil });
+    }
+  }
 
   // Supprime les doublons et créer un nouvel array
   function removeDuplicateObjects(array, property) {
@@ -74,50 +105,15 @@ export function createTagListContent(recipes) {
     return unique;
   }
 
-  // Créer liste des ingrédients
-  let ingredientsTagHtml = "";
-  let ingredientsArray = [];
 
-  for (let recipe of recipes) {
-    for (let ingredient of recipe.ingredients) {
-
-
-      ingredientsArray.push({ id: Math.random() * 200 | 0, name: ingredient.ingredient });
-    }
-  }
-
-  // Créer liste des appareils
-  let applianceTagHtml = "";
-  let applianceArray = [];
-
-  for (let appliance of recipes) {
-
-
-    applianceArray.push({ id: Math.random() * 200 | 0, name: appliance.appliance });
-
-  }
-
-  //Créer liste des ustensiles 
-  let ustensilsTagHtml = "";
-  let ustensilArray = [];
-
-  for (let ustensils of recipes) {
-    for (let ustensil of ustensils.ustensils) {
-
-
-      ustensilArray.push({ id: Math.random() * 200 | 0, name: ustensil });
-
-    }
-  }
-
-
-
+  // Fourni la liste des arrays sans doublons
   const ustensilsTagArrayClean = removeDuplicateObjects(ustensilArray, 'name');
-  const applianceTagHtmlClean = removeDuplicateObjects(applianceArray, 'name');
-  const ingredientsTagHtmlClean = removeDuplicateObjects(ingredientsArray, 'name');
-  console.log(removeDuplicateObjects(applianceArray, 'name'));
-  console.log(removeDuplicateObjects(ustensilArray, 'name'));
-  console.log(removeDuplicateObjects(ustensilArray, 'name'));
+  const applianceTagArrayClean = removeDuplicateObjects(applianceArray, 'name');
+  const ingredientsTagArrayClean = removeDuplicateObjects(ingredientsArray, 'name');
+  let ustensilsTagHtml = "";
+  let applianceTagHtml = "";
+  let ingredientsTagHtml = "";
+
 
 
 
@@ -127,14 +123,14 @@ export function createTagListContent(recipes) {
     ustensilsTagHtml += `</li>`;
 
   }
-  for (let name of applianceTagHtmlClean) {
+  for (let name of applianceTagArrayClean) {
     applianceTagHtml += `<li class="list">`;
     applianceTagHtml += `<button class="List-data">${name.name}</button> `;
     applianceTagHtml += `</li>`;
 
   }
 
-  for (let name of ingredientsTagHtmlClean) {
+  for (let name of ingredientsTagArrayClean) {
     ingredientsTagHtml += `<li class="list">`;
     ingredientsTagHtml += `<button class="List-data">${name.name}</button> `;
     ingredientsTagHtml += `</li>`;
@@ -143,6 +139,7 @@ export function createTagListContent(recipes) {
 
 
   return { ingredientsTagHtml, ustensilsTagHtml, applianceTagHtml }
+
 
 
 }

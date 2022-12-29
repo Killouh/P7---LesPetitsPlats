@@ -152,7 +152,7 @@ div > menu > li > button {
   }
 }
 div > menu > li > button > input {
-  /* display: none; ENLEVER */ 
+  display: none;
   border: none;
   color: rgba(255, 255, 255, 0.677);
   left: 0;
@@ -181,9 +181,8 @@ div > menu > li > menu {
   box-shadow: 0px 12px 12px 0px rgba(0, 0, 0, 0.2);
   z-index: 2;
   color: white;
-  width: 500%; /* A ENLEVER AUSSI */
   top: 65px;
-  /*visibility: hidden; POUR LES TESTER A ENLEVER ENSUITE*/
+  visibility: hidden;
   max-height: 287px;
   overflow-y: scroll;
   
@@ -230,7 +229,7 @@ div > menu > li > menu > li > button:hover {
   padding: 2px;
 }
 
-div > menu > li > button:after {
+.menuArrow {
   position: absolute;
   content: "";
   top: 28px;
@@ -240,9 +239,6 @@ div > menu > li > button:after {
   background: url(../asset/downarrow.svg);
   transform: rotate(180deg);
   z-index: 1;
-}
-div > menu > li.active > button:after {
-  transform: none;
 }
 
 /* ------------------ NO Result Recipes div ------------------ */

@@ -9,6 +9,8 @@ import { createTagList, getListBlock, createTagListContent } from './factories/t
 const recipeListDiv = document.getElementById("resultRecipes-container");
 const recipeHTML = generateRecipeHTML(recipes);
 
+
+
 // Genere les cartes de recettes
 recipeListDiv.innerHTML += recipeHTML;
 
@@ -62,34 +64,71 @@ translatebuttons();
 //Génère le contenu des boutons
 function displayListContent() {
     const TagListContentObject = createTagListContent(recipes);
-    
+
     // Génère le contenu du tagg ustensils
     const ustensilsObject = 'ustensilsTagHtml';
-    const ustensilsTagHtmlDiv = document.getElementById("ustensils-list")
+    const ustensilsTagHtmlDiv = document.getElementById("ustensils-list");
     ustensilsTagHtmlDiv.innerHTML += TagListContentObject[ustensilsObject];
-    // Fusionne et supprime les doublons du tagg ustensil
-
-    
-
-
 
     // Génère le contenu du tag ingredient
     const ingredientsObject = 'ingredientsTagHtml';
-    const ingredientsTagHtmlDiv = document.getElementById("ingredients-list")
+    const ingredientsTagHtmlDiv = document.getElementById("ingredients-list");
     ingredientsTagHtmlDiv.innerHTML += TagListContentObject[ingredientsObject];
 
     // génère le contenu du tagg appliance
     const applianceObject = 'applianceTagHtml';
-    const applianceTagHtmlDiv = document.getElementById("appliance-list")
+    const applianceTagHtmlDiv = document.getElementById("appliance-list");
     applianceTagHtmlDiv.innerHTML += TagListContentObject[applianceObject];
+}
+displayListContent();
 
+const filtersDiv = document.querySelector(".advancedFilters");
+const tagButton = document.querySelector(".advancedFilters-button");
+const tagContainer = document.getElementById("ingredients-list");
+const miniSearchContainer = document.getElementById("search-ingredients");
+const ingredientsTag = document.getElementById("span-ingredients");
+const menuArrow = document.querySelector(".menuArrow");
 
-
+function displayButtonsContent(button, container,miniSearch) {
+    button.addEventListener('click', () => {
+        let cssVisibility = "visible";
+        let cssDisplay ="block";
+        container.style.visibility = cssVisibility;
+        miniSearch.style.visibility = cssVisibility;
+        miniSearch.style.display = cssDisplay;
+        menuArrow.style.transform = "rotate(0deg)";
+        menuArrow.style.left = "20";
+        menuArrow.style.right = "none";
+        filtersDiv.style.width = "80%";
+        filtersDiv.style.backgroundColor = "#3282f7";
+        ingredientsTag.style.display ="none"
+        button.style.width = "100%"
+    });
+}
+function hideMenuOnClick(button, container, miniSearch) {
+    document.addEventListener('click', event => {
+        if (event.target !== button && !button.contains(event.target)) {
+            let cssVisibility = "hidden";
+            let cssDisplay ="none";
+            container.style.visibility = cssVisibility;
+            miniSearch.style.visibility = cssVisibility;
+            miniSearch.style.display = cssDisplay;
+            menuArrow.style.transform = "rotate(180deg)"
+            filtersDiv.style.width = "170px"
+            filtersDiv.style.backgroundcolor = "none"
+            ingredientsTag.style.display ="block"
+            
+        }
+    });
 }
 
 
-displayListContent();
 
+
+displayButtonsContent(tagButton, tagContainer, miniSearchContainer,filtersDiv);
+hideMenuOnClick(tagButton, tagContainer, miniSearchContainer);
+console.log(tagButton);
+console.log(tagContainer);
 
 
 
