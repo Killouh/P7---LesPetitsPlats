@@ -41,15 +41,15 @@ export function getListBlock(element) {
   // mettre une valeur par défaut
   const menuBlock = document.createElement('menu');
   menuBlock.setAttribute('class', `${element}-color`);
-  menuBlock.setAttribute('id', `${element}-list`);
+  menuBlock.setAttribute('id', `${element}-lists`);
 
   advancedFiltersMenu.appendChild(liBlock);
   liBlock.appendChild(divButton);
   divButton.appendChild(divButtonName);
   divButton.appendChild(divArrow);
   divButton.appendChild(divButtonSearchBar);
- 
-  
+
+
   liBlock.appendChild(menuBlock);
 
 }
@@ -57,91 +57,72 @@ export function getListBlock(element) {
 
 
 
-// Créer la liste de tagg 
 
+
+// Supprime les doublons et crée un nouvel array (créé pendant les premieres version du code)
+function removeDuplicateObjects(array, property) {
+  const uniqueIds = [];
+
+  const unique = array.filter(element => {
+    const isDuplicate = uniqueIds.includes(element[property]);
+
+    if (!isDuplicate) {
+      uniqueIds.push(element[property]);
+
+      return true;
+    }
+
+    return false;
+  });
+
+  return unique;
+}
+
+// Créer la liste de tagg 
 export function createTagListContent(recipes) {
 
   // Créer liste des ingrédients
   let ingredientsArray = [];
+  let appliancesArray = [];
+  let ustensilsArray = [];
 
   for (let recipe of recipes) {
-    for (let ingredient of recipe.ingredients) {
-      ingredientsArray.push({ id: Math.random() * 200 | 0, name: ingredient.ingredient });
-    }
+    ingredientsArray = ingredientsArray.concat(recipe.ingredients);
+    appliancesArray = appliancesArray.concat(recipe.appliance);
+    ustensilsArray = ustensilsArray.concat(recipe.ustensils);
   }
 
-  // Créer liste des appareils
-  let applianceArray = [];
-
-  for (let appliance of recipes) {
-    applianceArray.push({ id: Math.random() * 200 | 0, name: appliance.appliance });
-  }
-
-  //Créer liste des ustensiles 
-  let ustensilArray = [];
-
-  for (let ustensils of recipes) {
-    for (let ustensil of ustensils.ustensils) {
-      ustensilArray.push({ id: Math.random() * 200 | 0, name: ustensil });
-    }
-  }
-
-  // Supprime les doublons et créer un nouvel array
-  function removeDuplicateObjects(array, property) {
-    const uniqueIds = [];
-
-    const unique = array.filter(element => {
-      const isDuplicate = uniqueIds.includes(element[property]);
-
-      if (!isDuplicate) {
-        uniqueIds.push(element[property]);
-
-        return true;
-      }
-
-      return false;
-    });
-
-    return unique;
-  }
+  // Supprime les doublons des deux arrays
+  ingredientsArray = [...new Map(ingredientsArray.map(ingredient => [ingredient["ingredient"], ingredient["ingredient"]])).values()];
+  appliancesArray = [...new Set(appliancesArray)];
+  ustensilsArray = [...new Set(ustensilsArray)];
 
 
-  // Fourni la liste des arrays sans doublons
-  const ustensilsTagArrayClean = removeDuplicateObjects(ustensilArray, 'name');
-  const applianceTagArrayClean = removeDuplicateObjects(applianceArray, 'name');
-  const ingredientsTagArrayClean = removeDuplicateObjects(ingredientsArray, 'name');
   let ustensilsTagHtml = "";
   let applianceTagHtml = "";
   let ingredientsTagHtml = "";
 
-
-
-
-  for (let name of ustensilsTagArrayClean) {
+  for (let name of ustensilsArray) {
     ustensilsTagHtml += `<li class="list">`;
-    ustensilsTagHtml += `<button class="List-data">${name.name}</button> `;
+    ustensilsTagHtml += `<button class="List-data"type="button" >${name}</button> `;
     ustensilsTagHtml += `</li>`;
 
   }
-  for (let name of applianceTagArrayClean) {
+  for (let name of appliancesArray) {
     applianceTagHtml += `<li class="list">`;
-    applianceTagHtml += `<button class="List-data">${name.name}</button> `;
+    applianceTagHtml += `<button class="List-data" type="button">${name}</button> `;
     applianceTagHtml += `</li>`;
 
   }
 
-  for (let name of ingredientsTagArrayClean) {
+  for (let name of ingredientsArray) {
     ingredientsTagHtml += `<li class="list">`;
-    ingredientsTagHtml += `<button class="List-data">${name.name}</button> `;
+    ingredientsTagHtml += `<button class="List-data" type="button">${name} </button> `;
     ingredientsTagHtml += `</li>`;
 
   }
 
-
   return { ingredientsTagHtml, ustensilsTagHtml, applianceTagHtml }
-
-
-
 }
 
 

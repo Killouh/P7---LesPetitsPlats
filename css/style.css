@@ -107,6 +107,9 @@ header {
   padding-left: 15px;
   font-size: 20px;
 }
+.Selected-List-data{
+  background-color: #3282f7;
+}
 
 /* ------------------ Search menus ------------------ */
 
@@ -182,7 +185,8 @@ div > menu > li > menu {
   z-index: 2;
   color: white;
   top: 65px;
-  visibility: hidden;
+  visibility: visible; /* A CHANGER */
+  width: 500%; /* A CHANGER */
   max-height: 287px;
   overflow-y: scroll;
   
