@@ -19,16 +19,16 @@ export function getListBlock(element) {
   const advancedFiltersMenu = document.getElementById('advancedFilters-list');
 
   const liBlock = document.createElement('li');
-  liBlock.className = 'advancedFilters';
+  liBlock.className = `advancedFilters-${element}`;
   const divButton = document.createElement('button');
-  divButton.setAttribute('class', `advancedFilters-button ${element}-color`);
+  divButton.setAttribute('class', `advancedFilters-button-${element} ${element}-color`);
   divButton.setAttribute('type', `button`);
   const divButtonName = document.createElement('span');
   const divArrow = document.createElement('div')
 
   divButtonName.setAttribute('id', `span-${element}`);
   divButtonName.innerText = element;
-  divArrow.setAttribute('class', `menuArrow`);
+  divArrow.setAttribute('class', `menuArrow-${element}`);
 
 
 

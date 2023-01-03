@@ -111,6 +111,29 @@ header {
   background-color: #3282f7;
 }
 
+/* New css */
+
+.Selected-Tagg-Container{
+  display: flex;
+  padding: 0 10px 0 10px;
+  height: 37px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+.Selected-Tagg{
+  border: none;
+  font-family: 'Lato';
+  color: white;
+  padding-right: 10px;
+}
+
+.Selected-Cross{
+  color: white;
+  padding-right: 10px;
+  font-size: 20px;
+}
+
 /* ------------------ Search menus ------------------ */
 
 #advancedFilters-container {
@@ -185,9 +208,9 @@ div > menu > li > menu {
   z-index: 2;
   color: white;
   top: 65px;
-  visibility: visible; /* A CHANGER */
-  width: 500%; /* A CHANGER */
+  visibility: hidden;
   max-height: 287px;
+  width: 100%;
   overflow-y: scroll;
   
 }
@@ -233,7 +256,29 @@ div > menu > li > menu > li > button:hover {
   padding: 2px;
 }
 
-.menuArrow {
+.menuArrow-ustensils {
+  position: absolute;
+  content: "";
+  top: 28px;
+  right: 20px;
+  width: 16px;
+  height: 11px;
+  background: url(../asset/downarrow.svg);
+  transform: rotate(180deg);
+  z-index: 1;
+}
+.menuArrow-ingredients {
+  position: absolute;
+  content: "";
+  top: 28px;
+  right: 20px;
+  width: 16px;
+  height: 11px;
+  background: url(../asset/downarrow.svg);
+  transform: rotate(180deg);
+  z-index: 1;
+}
+.menuArrow-appliance {
   position: absolute;
   content: "";
   top: 28px;

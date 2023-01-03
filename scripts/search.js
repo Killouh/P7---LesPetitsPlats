@@ -87,59 +87,75 @@ function displayListContent() {
 displayListContent();
 
 
-// Ouverture et fermeture des menu tagg
-const filtersDiv = document.querySelector(".advancedFilters");
-const tagButton = document.querySelector(".advancedFilters-button");
-const tagContainer = document.querySelector('[id*="-lists"]');
-const miniSearchContainer = document.getElementById("search-ingredients");
+// DOM Ingrédients
+const ingredientsDiv = document.querySelector(".advancedFilters-ingredients");
+const ingredientsButton = document.querySelector(".advancedFilters-button-ingredients");
+const ingredientsContainer = document.querySelector("#ingredients-lists");
+const miniSearchContainerIngredients = document.getElementById("search-ingredients");
 const ingredientsTag = document.getElementById("span-ingredients");
-const menuArrow = document.querySelector(".menuArrow");
-// console.log(tagContainer);
+const ingredientsMenuArrow = document.querySelector(".menuArrow-ingredients");
+
+// DOM Appareil
+const appliancesDiv = document.querySelector(".advancedFilters-appliance");
+const applianceButton = document.querySelector(".advancedFilters-button-appliance");
+const applianceContainer = document.querySelector("#appliance-lists");
+const miniSearchContainerAppliance = document.getElementById("search-appliance");
+const applianceTag = document.getElementById("span-appliance");
+const applianceMenuArrow = document.querySelector(".menuArrow-appliance");
+
+// DOM Ustensiles
+const ustensilsDiv = document.querySelector(".advancedFilters-ustensils");
+const ustensilsButton = document.querySelector(".advancedFilters-button-ustensils");
+const ustensilsContainer = document.querySelector("#ustensils-lists");
+const miniSearchContainerUstensils = document.getElementById("search-ustensils");
+const ustensilsTag = document.getElementById("span-ustensils");
+const ustensilsMenuArrow = document.querySelector(".menuArrow-ustensils");
 
 
-// Voir pour simplement ajouter une classe "actif" // faire une fonction ?
-function displayButtonsContent(button, container, miniSearch) {
-    button.addEventListener('click', () => {
-        let cssVisibility = "visible";
-        let cssDisplay = "block";
+// Affiche le contenu du bouton Tagg
+function displayButtonsContent(button, container, miniSearch, objectTag, objectDiv, arrow) {
+    let cssVisibility = "visible";
+    let cssDisplay = "block";
+
+    document.addEventListener('click', () => {
         container.style.visibility = cssVisibility;
         miniSearch.style.visibility = cssVisibility;
         miniSearch.style.display = cssDisplay;
-        menuArrow.style.transform = "rotate(0deg)";
-        menuArrow.style.left = "20";
-        menuArrow.style.right = "none";
-        filtersDiv.style.width = "80%";
-        filtersDiv.style.backgroundColor = "#3282f7";
-        filtersDiv.style.borderRadius = "20px"
-        ingredientsTag.style.display = "none"
+        arrow.style.transform = "rotate(0deg)";
+        arrow.style.left = "20";
+        arrow.style.right = "none";
+        objectDiv.style.width = "80%";
+        objectDiv.style.backgroundColor = "#3282f7";
+        objectDiv.style.borderRadius = "20px"
+        objectTag.style.display = "none"
         button.style.width = "100%"
     });
 }
-function hideMenuOnClick(button, container, miniSearch) {
-    button.addEventListener('click', event => {
-        // if (event.target !== button && !button.contains(event.target)) {
-        //     let cssVisibility = "hidden";
-        //     let cssDisplay ="none";
-        //     container.style.visibility = cssVisibility;
-        //     miniSearch.style.visibility = cssVisibility;
-        //     miniSearch.style.display = cssDisplay;
-        //     menuArrow.style.transform = "rotate(180deg)"
-        //     filtersDiv.style.width = "170px"
-        //     filtersDiv.style.backgroundcolor = "none"
-        //     ingredientsTag.style.display ="block"
+// Ferme le bouton tagg par clic hors de la zone ou sur la fleche
+function hideMenuOnClick(container, miniSearch, objectTag, objectDiv, arrow) {
+    let cssVisibility = "hidden";
+    let cssDisplay = "none";
 
-        // }
-        if (event.target == menuArrow && menuArrow.contains(event.target)) {
-            let cssVisibility = "hidden";
-            let cssDisplay = "none";
+    document.addEventListener('click', event => {
+        if (event.target !== objectDiv && !objectDiv.contains(event.target)) {
+
             container.style.visibility = cssVisibility;
             miniSearch.style.visibility = cssVisibility;
             miniSearch.style.display = cssDisplay;
-            menuArrow.style.transform = "rotate(180deg)"
-            filtersDiv.style.width = "170px"
-            filtersDiv.style.backgroundcolor = "none"
-            ingredientsTag.style.display = "block"
+            arrow.style.transform = "rotate(180deg)"
+            objectDiv.style.width = "170px"
+            objectDiv.style.backgroundcolor = "none"
+            objectTag.style.display = "block"
+        }
+        if (event.target == arrow && arrow.contains(event.target)) {
 
+            container.style.visibility = cssVisibility;
+            miniSearch.style.visibility = cssVisibility;
+            miniSearch.style.display = cssDisplay;
+            arrow.style.transform = "rotate(180deg)"
+            objectDiv.style.width = "170px"
+            objectDiv.style.backgroundcolor = "none"
+            objectTag.style.display = "block"
         }
     });
 }
@@ -147,37 +163,96 @@ function hideMenuOnClick(button, container, miniSearch) {
 
 
 
-displayButtonsContent(tagButton, tagContainer, miniSearchContainer, filtersDiv);
-// ajouter pour appliance et ustensils
-hideMenuOnClick(tagButton, tagContainer, miniSearchContainer);
-
+// Function ouverture par cas
+displayButtonsContent(ingredientsButton, ingredientsContainer, miniSearchContainerIngredients, ingredientsTag, ingredientsDiv, ingredientsMenuArrow);
+displayButtonsContent(applianceButton, applianceContainer, miniSearchContainerAppliance, applianceTag, appliancesDiv, applianceMenuArrow);
+displayButtonsContent(ustensilsButton, ustensilsContainer, miniSearchContainerUstensils, ustensilsTag, ustensilsDiv, ustensilsMenuArrow);
+//Function fermeture par cas
+hideMenuOnClick(ingredientsContainer, miniSearchContainerIngredients, ingredientsTag, ingredientsDiv, ingredientsMenuArrow);
+hideMenuOnClick(applianceContainer, miniSearchContainerAppliance, applianceTag, appliancesDiv, applianceMenuArrow);
+hideMenuOnClick(ustensilsContainer, miniSearchContainerUstensils, ustensilsTag, ustensilsDiv, ustensilsMenuArrow);
 
 // Clic sur un tagg pour l'ajouter/supprimer de la recherche
 const selectedTaggContainer = document.getElementById("advancedSelectedFilterTags-container");
-const listTagg = document.querySelector(".List-data");
-const selectedTagg = document.querySelector(".Selected List-data");
-const taggContainer = document.getElementById("ingredients-lists");
+// const listTagg = document.querySelectorAll(".list"); à supprimmer
+const taggsContainer = document.getElementById("advancedFilters-list")
+const listTaggsIngredients = document.getElementById("ingredients-lists");
+const listTaggsUstensils = document.getElementById("ustensils-lists");
+const listTaggsAppliance = document.getElementById("appliance-lists");
 
 
-console.log(selectedTaggContainer);
-console.log(selectedTagg);
-console.log(tagButton);
+
+function highlightTag(event) {
+    if (event.target.classList.contains('List-data')) {
+        const parentClass = event.target.parentNode.parentNode.classList.value;
+        const selectedTaggdiv = document.createElement('div');
+        const selecTaggButton = document.createElement('button');
+        const selectedTaggCross = document.createElement('i');
 
 
-function addTag(button, container) {
-    button.addEventListener('click', () => {
-        container.appendChild(button);
-        button.setAttribute("class", "Selected-List-data");
-    });
+        selectedTaggdiv.setAttribute('class', `Selected-Tagg-Container ${parentClass}`);
+
+        selecTaggButton.setAttribute('type', `button`);
+        selecTaggButton.setAttribute('class', `Selected-Tagg ${parentClass}`);
+
+        selectedTaggCross.setAttribute('class', `fa-regular fa-circle-xmark Selected-Cross`);
+
+        selecTaggButton.innerHTML += event.target.innerHTML;
+        selectedTaggContainer.appendChild(selectedTaggdiv);
+        selectedTaggdiv.appendChild(selecTaggButton);
+        selectedTaggdiv.appendChild(selectedTaggCross);
+
+        event.target.parentNode.parentNode.removeChild(event.target.parentNode);
+    }
+
+
 }
 
-//  function removeTagg(button, container) {
-//      button.addEventListener('click', () => {
-//          button.appendChild(container);
-//      });
-//   }
-addTag(listTagg, selectedTaggContainer);
-// removeTagg(selectedTagg, taggContainer);
+// Remet le tagg dans la liste au clic sur la croix
+function removeHighlightedTag(event) {
+    if (event.target) {
+        if (event.target.classList.contains('Selected-Cross')) {
+            const tag = event.target.parentNode;
+            const previousDiv = event.target.previousSibling;
+            const replacedListItem = document.createElement('li');
+            const replacedButtonItem = document.createElement('button');
+
+            if (tag.classList.contains('Selected-Tagg-Container')) {
+                tag.parentNode.removeChild(tag);
+                replacedListItem.setAttribute('class', `list`);
+                replacedButtonItem.setAttribute('class', `List-data`);
+                replacedButtonItem.setAttribute('type', `button`);
+                replacedButtonItem.innerHTML += previousDiv.innerHTML;
+
+                if (tag.classList.contains('ingredients-color')) {
+
+                    listTaggsIngredients.appendChild(replacedListItem);
+                }
+                if (tag.classList.contains('ustensils-color')) {
+
+                    listTaggsUstensils.appendChild(replacedListItem);
+                }
+                if (tag.classList.contains('appliance-color')) {
+
+                    listTaggsAppliance.appendChild(replacedListItem);
+                }
+                replacedListItem.appendChild(replacedButtonItem);
+            }
+        }
+    }
+
+}
+// Selectionne la list de tagg clické pour le remettre dans la list
+selectedTaggContainer.addEventListener('click', removeHighlightedTag, true);
+// Selectionne la liste de tagg pour en faire un bouton
+taggsContainer.addEventListener('click', highlightTag, true);
+
+
+// listTagg.forEach(tag => {
+//     tag.addEventListener('click', highlightTag);
+// });
+
+
 
 // Recherche via les tagg :
 
