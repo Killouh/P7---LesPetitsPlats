@@ -83,68 +83,66 @@ const listTaggsAppliance = document.getElementById("appliance-lists");
 
 // Function qui ajoute un tagg en highlight
 let highlightedItems = [];
-function highlighManagement(){
-tagsButtons.forEach(function (button) {
-    button.addEventListener('click', function (event) {
+function highlighManagement() {
+    document.addEventListener('click', function (event) {
         let target = event.target;
-        let arrayIngredient = ingredientsArrayFinale;
-        let arrayAppliance = applianceArrayFinale;
-        let arrayUstensils = ustensilsArrayFinale;
-        const ColorClass = event.target.parentNode.parentNode.classList;
-        if (event.target.parentNode.parentNode.classList.contains('ingredients-color')) {
-            let index = arrayIngredient.indexOf(target.innerHTML);
-            if (index !== -1) {
-                highlightedItems.push(arrayIngredient.splice(index, 1)[0]);
-                highLightedTagg(highlightedItems, ColorClass);
-            }
-        }
-        if (event.target.parentNode.parentNode.classList.contains('appliance-color')) {
-            let index = arrayAppliance.indexOf(target.innerHTML);
-            if (index !== -1) {
-                highlightedItems.push(arrayAppliance.splice(index, 1)[0]);
-                highLightedTagg(highlightedItems, ColorClass);
-            }
-        }
-        if (event.target.parentNode.parentNode.classList.contains('ustensils-color')) {
-            let index = arrayUstensils.indexOf(target.innerHTML);
-            if (index !== -1) {
-                highlightedItems.push(arrayUstensils.splice(index, 1)[0]);
-                highLightedTagg(highlightedItems, ColorClass);
-            }
-        }
-        
+        if (target.matches(".List-data")) {
 
-        updateListDisplays(target);
-
+            let arrayIngredient = ingredientsArrayFinale;
+            let arrayAppliance = applianceArrayFinale;
+            let arrayUstensils = ustensilsArrayFinale;
+            const ColorClass = event.target.parentNode.parentNode.classList;
+            if (event.target.parentNode.parentNode.classList.contains('ingredients-color')) {
+                let index = arrayIngredient.indexOf(target.innerHTML);
+                if (index !== -1) {
+                    highlightedItems.push(arrayIngredient.splice(index, 1)[0]);
+                    highLightedTagg(highlightedItems, ColorClass);
+                }
+            }
+            if (event.target.parentNode.parentNode.classList.contains('appliance-color')) {
+                let index = arrayAppliance.indexOf(target.innerHTML);
+                if (index !== -1) {
+                    highlightedItems.push(arrayAppliance.splice(index, 1)[0]);
+                    highLightedTagg(highlightedItems, ColorClass);
+                }
+            }
+            if (event.target.parentNode.parentNode.classList.contains('ustensils-color')) {
+                let index = arrayUstensils.indexOf(target.innerHTML);
+                if (index !== -1) {
+                    highlightedItems.push(arrayUstensils.splice(index, 1)[0]);
+                    highLightedTagg(highlightedItems, ColorClass);
+                }
+            }
+            updateListDisplays(target);
+        }
     });
-});
+
+
 }
 
 // Fonction qui enleve le tagg au clic de la croix 
-function crossRemoval(){
-document.addEventListener("click", function(event) {
-    let target = event.target;
-    console.log(target);
-    if (target.matches("#Selected-Cross")) {
-        
-        if(target.parentNode.classList.contains("ingredients-color")){
-            ingredientsContainer.innerHTML = "";
-            applianceContainer.innerHTML = "";
-            ustensilsContainer.innerHTML = "";
+function crossRemoval() {
+    document.addEventListener("click", function (event) {
+        let target = event.target;
+        if (target.matches("#Selected-Cross")) {
+            if (target.parentNode.classList.contains("ingredients-color")) {
+                ingredientsContainer.innerHTML = "";
+                applianceContainer.innerHTML = "";
+                ustensilsContainer.innerHTML = "";
+            }
+            if (target.parentNode.classList.contains("appliance-color")) {
+                ingredientsContainer.innerHTML = "";
+                applianceContainer.innerHTML = "";
+                ustensilsContainer.innerHTML = "";
+            }
+            if (target.parentNode.classList.contains("ingredients-color")) {
+                ingredientsContainer.innerHTML = "";
+                applianceContainer.innerHTML = "";
+                ustensilsContainer.innerHTML = "";
+            }
+            removeHighlightedTagg(highlightedItems, target, ingredientsArrayFinale, applianceArrayFinale, ustensilsArrayFinale);
         }
-        if(target.parentNode.classList.contains("appliance-color")){
-            ingredientsContainer.innerHTML = "";
-            applianceContainer.innerHTML = "";
-            ustensilsContainer.innerHTML = "";
-        }
-        if(target.parentNode.classList.contains("ingredients-color")){
-            ingredientsContainer.innerHTML = "";
-            applianceContainer.innerHTML = "";
-            ustensilsContainer.innerHTML = "";
-        }
-        removeHighlightedTagg(highlightedItems, target, ingredientsArrayFinale, applianceArrayFinale, ustensilsArrayFinale  );
-    }
-  });
+    });
 }
 
 // Appel des functions de tagg

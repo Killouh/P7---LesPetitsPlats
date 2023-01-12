@@ -214,7 +214,7 @@ export function modifyListContent(ingredientsArray, appliancesArray, ustensilsAr
     ustensilItem.appendChild(ustensilButton);
     ustensilsTagHtmlDiv.appendChild(ustensilItem);
   });
-  return { ingredientsArrayFinal, applianceArrayFinal, ustensilsArrayFinal }
+  return { ingredientsArray, appliancesArray, ustensilsArray }
 }
 
 
