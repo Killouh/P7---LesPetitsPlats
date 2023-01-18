@@ -1,5 +1,5 @@
 // Affiche le contenu du bouton Tagg // Faire des class CSS supplémentaires
-export function displayButtonsContent(button, container, miniSearch, objectTag, objectDiv, arrow) {
+export function displayButtonsContent(button, container, miniSearch, objectTag, objectDiv, arrow, miniSearchBar) {
     let cssVisibility = "visible";
     let cssDisplay = "block";
 

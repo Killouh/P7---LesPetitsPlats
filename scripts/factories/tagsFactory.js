@@ -1,3 +1,5 @@
+import { highlightedItems } from '../search.js';
+
 // Selectionner les nom de tagg dans le tableau
 function createTagList(array) {
   const listTitleIng = (Object.keys(array[0]))[3]
@@ -6,8 +8,6 @@ function createTagList(array) {
   const listTitles = [listTitleIng, listTitleApp, listTitleUst]
   return listTitles
 }
-
-
 
 
 // Creer les boutons Tag 
@@ -83,13 +83,20 @@ export function createTagListContent(recipes) {
   const ustensilsArrayCaseSensitive = ustensilsArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
 
   // Remet la premiere lettre de la nouvelle array filtrée (sans doublons "case insensitives")
-  const ingredientsArrayFinal = ingredientsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
-  const applianceArrayFinal = appliancesArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
-  const ustensilsArrayFinal = ustensilsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
+  const ingredientsArrayFinal2 = ingredientsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
+  const applianceArrayFinal2 = appliancesArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
+  const ustensilsArrayFinal2 = ustensilsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
+  
+  // N'ajoute pas le tagg s'il est présent dans highlightedItems
+  const ingredientsArrayFinal = ingredientsArrayFinal2.filter(ingredient => !highlightedItems.includes(ingredient));
+  const applianceArrayFinal = applianceArrayFinal2.filter(appliance => !highlightedItems.includes(appliance));
+  const ustensilsArrayFinal = ustensilsArrayFinal2.filter(ustensil => !highlightedItems.includes(ustensil));
 
   const ingredientsTagHtmlDiv = document.getElementById("ingredients-lists");
   const applianceTagHtmlDiv = document.getElementById("appliance-lists");
   const ustensilsTagHtmlDiv = document.getElementById("ustensils-lists");
+
+ 
 
   ingredientsArrayFinal.forEach(ingredient => {
     //Création d'un element li pour chaque ingrédient
@@ -222,7 +229,7 @@ export function updateListDisplays(target) {
   target.parentNode.remove();
 }
 
-export function removeHighlightedTagg(highlightedItems, target, arrayIngredient, arrayAppliance, arrayUstensils ) {
+export function removeHighlightedTagg(highlightedItems, target, arrayIngredient, arrayAppliance, arrayUstensils) {
   const targetItem = target.previousSibling.textContent;
 
   // Trouver l'index de l'item dans l'array highlightedItems
@@ -246,6 +253,67 @@ export function removeHighlightedTagg(highlightedItems, target, arrayIngredient,
   }
   modifyListContent(arrayIngredient, arrayAppliance, arrayUstensils);
 }
+
+
+// a optimiser pour une fonction unique
+
+export function searchIngredientTagg(ingredientsArray) {
+  ingredientsArray = [...new Set(ingredientsArray)];
+  const ingredientsArrayCaseSensitive = ingredientsArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
+  const ingredientsArrayFinal = ingredientsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
+  const ingredientsTagHtmlDiv = document.getElementById("ingredients-lists");
+  ingredientsArrayFinal.forEach(ingredient => {
+    //Création d'un element li pour chaque ingrédient
+    const ingredientItem = document.createElement('li');
+    const ingredientButton = document.createElement('button');
+    ingredientItem.classList.add('list');
+    ingredientButton.classList.add('List-data');
+    ingredientButton.type = "button";
+    ingredientButton.innerHTML = ingredient;
+    ingredientItem.appendChild(ingredientButton);
+    ingredientsTagHtmlDiv.appendChild(ingredientItem);
+  });
+  return ingredientsArray
+}
+
+export function searchApplianceTagg(appliancesArray) {
+  appliancesArray = [...new Set(appliancesArray)];
+  const appliancesArrayCaseSensitive = appliancesArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
+  const applianceArrayFinal = appliancesArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
+  const applianceTagHtmlDiv = document.getElementById("appliance-lists");
+  applianceArrayFinal.forEach(appliance => {
+    //Création d'un element li pour chaque ingrédient
+    const applianceItem = document.createElement('li');
+    const applianceButton = document.createElement('button');
+    applianceItem.classList.add('list');
+    applianceButton.classList.add('List-data');
+    applianceButton.type = "button";
+    applianceButton.innerHTML = appliance;
+    applianceItem.appendChild(applianceButton);
+    applianceTagHtmlDiv.appendChild(applianceItem);
+  });
+  return appliancesArray
+}
+
+export function searchUstensilsTagg(ustensilsArray) {
+  ustensilsArray = [...new Set(ustensilsArray)];
+  const ustensilsArrayCaseSensitive = ustensilsArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
+  const ustensilsArrayFinal = ustensilsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
+  const ustensilsTagHtmlDiv = document.getElementById("ustensils-lists");
+  ustensilsArrayFinal.forEach(ustensil => {
+    //Création d'un element li pour chaque ingrédient
+    const ustensilItem = document.createElement('li');
+    const ustensilButton = document.createElement('button');
+    ustensilItem.classList.add('list');
+    ustensilButton.classList.add('List-data');
+    ustensilButton.type = "button";
+    ustensilButton.innerHTML = ustensil;
+    ustensilItem.appendChild(ustensilButton);
+    ustensilsTagHtmlDiv.appendChild(ustensilItem);
+  });
+  return ustensilsArray
+}
+
 
 
 

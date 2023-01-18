@@ -77,10 +77,9 @@ export function generateRecipeHTML(recipes) {
       html += '</article>'
     }
   }
+
+
   
 
   return html;
 }
-
-
-
