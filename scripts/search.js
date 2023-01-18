@@ -1,6 +1,6 @@
 import { recipes } from '../../data/recipes.js'
 import { generateRecipeHTML } from './factories/recipesFactory.js'
-import { createTagListContent, displayListButtons, highLightedTagg, modifyListContent, updateListDisplays, removeHighlightedTagg, searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg } from './factories/tagsFactory.js'
+import { createTagListContent, displayListButtons, highLightedTagg, modifyListContent, updateListDisplays, removeHighlightedTagg, searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from './factories/tagsFactory.js'
 import { translatebuttons } from '../scripts/utils/localisation.js'
 import { hideMenuOnClick, displayButtonsContent } from '../scripts/utils/display.js'
 
@@ -13,7 +13,6 @@ const searchInput = document.querySelector('#searchBar');
 const resultsContainer = document.querySelector('#resultRecipes-container');
 const noResult = document.getElementById("noResults");
 export let highlightedItems = [];
-let compatibleRecipes = recipes;
 
 
 // Genere les cartes de recettes
@@ -62,6 +61,9 @@ const ustensilsMenuArrow = document.querySelector(".menuArrow-ustensils");
 const miniSearchInputUstensils = document.querySelector('#search-ustensils');
 const resultsContainerUstensils = document.querySelector('#ustensils-lists');
 
+let compatibleRecipes = recipes;
+
+
 // Function ouverture par cas
 displayButtonsContent(ingredientsButton, ingredientsContainer, miniSearchContainerIngredients, ingredientsTag, ingredientsDiv, ingredientsMenuArrow);
 displayButtonsContent(applianceButton, applianceContainer, miniSearchContainerAppliance, applianceTag, appliancesDiv, applianceMenuArrow);
@@ -102,8 +104,9 @@ function highlighManagement() {
                     highLightedTagg(highlightedItems, ColorClass);
                 }
             }
-            updateTaggList(highlightedItems, compatibleRecipes)
+            compatibleRecipes = updateTaggList(highlightedItems, compatibleRecipes);
             updateListDisplays(target);
+
         }
     });
 
@@ -131,6 +134,7 @@ function crossRemoval() {
                 ustensilsContainer.innerHTML = "";
             }
             removeHighlightedTagg(highlightedItems, target, ingredientsArrayFinale, applianceArrayFinale, ustensilsArrayFinale);
+            removeHighlightedItem(target, compatibleRecipes, recipes);
         }
     });
 }
@@ -259,27 +263,35 @@ minisearchbarUstensils(miniSearchInputUstensils, resultsContainerUstensils, uste
 
 // voir rename fonction / + gerer les recettes affichées en meme temps dans un premier temps // voir sans accolade
 
-
-function updateTaggList(highlightedItems, compatibleRecipes) {
-    let highlightedItemsLowered = highlightedItems.map(function (item) {
-        return item.toLowerCase()
+function updateTaggList(highlightedItems, recipes) {
+    let highlightedItemsLowered = highlightedItems.map(item => item.toLowerCase());
+    recipes = recipes.filter(recipe => {
+        let ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+        let ustensils = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
+        let allItems = [...ingredients, recipe.appliance.toLowerCase(), ...ustensils];
+        let intersection = highlightedItemsLowered.filter(item => allItems.includes(item));
+        return intersection.length === highlightedItemsLowered.length;
     });
-    compatibleRecipes = compatibleRecipes.filter(recipe => {
-        return recipe.ingredients.some(ingredient => highlightedItemsLowered.includes(ingredient.ingredient.toLowerCase())) ||
-            highlightedItemsLowered.includes(recipe.appliance.toLowerCase()) ||
-            recipe.ustensils.some(ustensils => highlightedItemsLowered.includes(ustensils.toLowerCase()))
-    });
-
-
     ingredientsContainer.innerHTML = "";
     applianceContainer.innerHTML = "";
     ustensilsContainer.innerHTML = "";
-    
-    createTagListContent(compatibleRecipes);
     console.log(highlightedItems);
-    console.log(compatibleRecipes);
-    return compatibleRecipes;
+    console.log(recipes);
+    createTagListContent(recipes);
+    return recipes;
 }
+function removeHighlightedItem(item, matchingRecipes, recipes) {
+    const itemTxt = [item.previousSibling.textContent];
+    const filteredRecipes = recipes.filter(recipe => {
+        let ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+        let ustensils = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
+        let allItems = [...ingredients, recipe.appliance.toLowerCase(), ...ustensils];
+        let intersection = itemTxt.filter(item => allItems.includes(item));
+        return intersection.length !== itemTxt.length;
+    });
+    matchingRecipes.push(...filteredRecipes);
+}
+
 
 // Searchbar 
 

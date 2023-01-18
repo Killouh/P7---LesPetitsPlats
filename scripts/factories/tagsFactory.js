@@ -86,7 +86,7 @@ export function createTagListContent(recipes) {
   const ingredientsArrayFinal2 = ingredientsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
   const applianceArrayFinal2 = appliancesArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
   const ustensilsArrayFinal2 = ustensilsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
-  
+
   // N'ajoute pas le tagg s'il est présent dans highlightedItems
   const ingredientsArrayFinal = ingredientsArrayFinal2.filter(ingredient => !highlightedItems.includes(ingredient));
   const applianceArrayFinal = applianceArrayFinal2.filter(appliance => !highlightedItems.includes(appliance));
@@ -253,6 +253,8 @@ export function removeHighlightedTagg(highlightedItems, target, arrayIngredient,
   }
   modifyListContent(arrayIngredient, arrayAppliance, arrayUstensils);
 }
+
+
 
 
 // a optimiser pour une fonction unique
