@@ -1,8 +1,9 @@
 import { recipes } from '../../data/recipes.js'
 import { generateRecipeHTML } from './factories/recipesFactory.js'
-import { createTagListContent, displayListButtons, highLightedTagg, modifyListContent, updateListDisplays, removeHighlightedTagg, searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from './factories/tagsFactory.js'
+import { createTagListContent, displayListButtons, highLightedTagg, updateListDisplays, removeHighlightedTagg, searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from './factories/tagsFactory.js'
 import { translatebuttons } from '../scripts/utils/localisation.js'
 import { hideMenuOnClick, displayButtonsContent } from '../scripts/utils/display.js'
+import { minisearchbarIngredient, minisearchbarUstensils, minisearchbarAppliance, searchbar } from '../scripts/utils/searchBars.js'
 
 
 
@@ -26,10 +27,9 @@ translatebuttons();
 
 // //Génère le contenu des boutons
 const list = createTagListContent(recipes);
-let ingredientsArrayFinale = list.ingredientsArrayFinal;
-let applianceArrayFinale = list.applianceArrayFinal;
-let ustensilsArrayFinale = list.ustensilsArrayFinal;
-
+ let ingredientsArrayFinale = list.ingredientsArrayFinal;
+ let applianceArrayFinale = list.applianceArrayFinal;
+ let ustensilsArrayFinale = list.ustensilsArrayFinal;
 
 // DOM Ingrédients
 const ingredientsDiv = document.querySelector(".advancedFilters-ingredients");
@@ -75,6 +75,35 @@ hideMenuOnClick(ustensilsContainer, miniSearchContainerUstensils, ustensilsTag, 
 
 // Function qui ajoute un tagg en highlight
 
+function updateTaggList(highlightedItems, recipes) {
+    let highlightedItemsLowered = highlightedItems.map(item => item.toLowerCase());
+    recipes = recipes.filter(recipe => {
+        let ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+        let ustensils = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
+        let allItems = [...ingredients, recipe.appliance.toLowerCase(), ...ustensils];
+        let intersection = highlightedItemsLowered.filter(item => allItems.includes(item));
+        return intersection.length === highlightedItemsLowered.length;
+    });
+    ingredientsContainer.innerHTML = "";
+    applianceContainer.innerHTML = "";
+    ustensilsContainer.innerHTML = "";
+    console.log(highlightedItems);
+    console.log(recipes);
+    createTagListContent(recipes);
+    return recipes;
+}
+function removeHighlightedItem(item, matchingRecipes, recipes) {
+    const itemTxt = [item.previousSibling.textContent];
+    const filteredRecipes = recipes.filter(recipe => {
+        let ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+        let ustensils = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
+        let allItems = [...ingredients, recipe.appliance.toLowerCase(), ...ustensils];
+        let intersection = itemTxt.filter(item => allItems.includes(item));
+        return intersection.length !== itemTxt.length;
+    });
+    matchingRecipes.push(...filteredRecipes);
+}
+
 function highlighManagement() {
     document.addEventListener('click', function (event) {
         let target = event.target;
@@ -106,7 +135,10 @@ function highlighManagement() {
             }
             compatibleRecipes = updateTaggList(highlightedItems, compatibleRecipes);
             updateListDisplays(target);
-
+            resultsContainer.innerHTML = '';
+            const recipeListDiv = document.getElementById("resultRecipes-container");
+            const recipeHTML = generateRecipeHTML(compatibleRecipes);
+            recipeListDiv.innerHTML += recipeHTML;
         }
     });
 
@@ -135,219 +167,21 @@ function crossRemoval() {
             }
             removeHighlightedTagg(highlightedItems, target, ingredientsArrayFinale, applianceArrayFinale, ustensilsArrayFinale);
             removeHighlightedItem(target, compatibleRecipes, recipes);
+            resultsContainer.innerHTML = '';
+            const recipeListDiv = document.getElementById("resultRecipes-container");
+            const recipeHTML = generateRecipeHTML(compatibleRecipes);
+            recipeListDiv.innerHTML += recipeHTML;
         }
     });
 }
 
+// Appel de la fonction searchBar Principale : 
+searchbar(searchInput, resultsContainer, noResult);
 
-// Via la mini searchbar :
-
-
-// A optimiser pour une fonction unique // Pas necessaire (pas forcemment mieux)
-function minisearchbarIngredient(searchbar, resultsContainer, array) {
-    searchbar.addEventListener('keyup', () => {
-        const searchTerm = searchbar.value.toLowerCase();
-
-        // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0) {
-            resultsContainer.innerHTML = '';
-            searchIngredientTagg(array);
-
-            return;
-        }
-
-        if (searchTerm.length < 3) {
-            resultsContainer.innerHTML = '';
-            searchIngredientTagg(array);
-            return;
-        }
-
-        // Recherche sur la searchbar pour les ingredients et les noms de plat //
-        var searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
-        const matchingRecipes = array.filter((item) => {
-            return item.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)
-        });
-        console.log(matchingRecipes);
-
-        resultsContainer.innerHTML = '';
-
-        if (matchingRecipes.length > 0) {
-            searchIngredientTagg(matchingRecipes);
-        }
-    });
-};
-
-function minisearchbarAppliance(searchbar, resultsContainer, array) {
-    searchbar.addEventListener('keyup', () => {
-        const searchTerm = searchbar.value.toLowerCase();
-
-        // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0) {
-            searchApplianceTagg(array);
-
-            return;
-        }
-
-        if (searchTerm.length < 3) {
-            resultsContainer.innerHTML = '';
-            searchApplianceTagg(array);
-
-            return;
-        }
-
-        // Recherche sur la searchbar pour les ingredients et les noms de plat //
-        var searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
-        const matchingRecipes = array.filter((item) => {
-            return item.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)
-        });
-        console.log(matchingRecipes);
-
-        resultsContainer.innerHTML = '';
-
-        if (matchingRecipes.length > 0) {
-            searchApplianceTagg(matchingRecipes);
-        }
-    });
-};
-
-function minisearchbarUstensils(searchbar, resultsContainer, array) {
-    searchbar.addEventListener('keyup', () => {
-        const searchTerm = searchbar.value.toLowerCase();
-
-        // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0) {
-            resultsContainer.innerHTML = '';
-            searchUstensilsTagg(array);
-
-            return;
-        }
-
-        if (searchTerm.length < 3) {
-            resultsContainer.innerHTML = '';
-            searchUstensilsTagg(array);
-
-            return;
-        }
-
-        // Recherche sur la searchbar pour les ingredients et les noms de plat //
-        var searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
-        const matchingRecipes = array.filter((item) => {
-            return item.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)
-        });
-        console.log(matchingRecipes);
-
-        resultsContainer.innerHTML = '';
-
-        if (matchingRecipes.length > 0) {
-            searchUstensilsTagg(matchingRecipes);
-        }
-    });
-};
-
+// Appel des fonctions minisearchBars
 minisearchbarIngredient(miniSearchInputIngredients, resultsContainerIngredients, ingredientsArrayFinale);
 minisearchbarAppliance(miniSearchInputAppliance, resultsContainerAppliance, applianceArrayFinale);
 minisearchbarUstensils(miniSearchInputUstensils, resultsContainerUstensils, ustensilsArrayFinale);
-
-
-// displayAvailableIngredients(recette) => app/uste...
-//Recette ou recette filtrée en paramètre
-
-// filtrer les recette par ingredient/app/uste...
-
-
-// partir de zero(a voir) pour une supression filtre/tagg
-
-
-
-// Via l'ajout des tagg (Vérifie les recettes contenant ce tagg et affiche les seuls tagg restants et compatibles)
-
-// voir rename fonction / + gerer les recettes affichées en meme temps dans un premier temps // voir sans accolade
-
-function updateTaggList(highlightedItems, recipes) {
-    let highlightedItemsLowered = highlightedItems.map(item => item.toLowerCase());
-    recipes = recipes.filter(recipe => {
-        let ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
-        let ustensils = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
-        let allItems = [...ingredients, recipe.appliance.toLowerCase(), ...ustensils];
-        let intersection = highlightedItemsLowered.filter(item => allItems.includes(item));
-        return intersection.length === highlightedItemsLowered.length;
-    });
-    ingredientsContainer.innerHTML = "";
-    applianceContainer.innerHTML = "";
-    ustensilsContainer.innerHTML = "";
-    console.log(highlightedItems);
-    console.log(recipes);
-    createTagListContent(recipes);
-    return recipes;
-}
-function removeHighlightedItem(item, matchingRecipes, recipes) {
-    const itemTxt = [item.previousSibling.textContent];
-    const filteredRecipes = recipes.filter(recipe => {
-        let ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
-        let ustensils = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
-        let allItems = [...ingredients, recipe.appliance.toLowerCase(), ...ustensils];
-        let intersection = itemTxt.filter(item => allItems.includes(item));
-        return intersection.length !== itemTxt.length;
-    });
-    matchingRecipes.push(...filteredRecipes);
-}
-
-
-// Searchbar 
-
-function searchbar(searchbar, results, noResults) {
-    searchbar.addEventListener('keyup', () => {
-        const searchTerm = searchbar.value.toLowerCase();
-        const recipeListDiv = document.getElementById("resultRecipes-container");
-        const recipeHTML = generateRecipeHTML(recipes);
-
-        // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0) {
-            recipeListDiv.innerHTML += recipeHTML;
-            noResults.style.display = "none";
-            return;
-        }
-
-        if (searchTerm.length < 3) {
-
-            recipeListDiv.innerHTML += recipeHTML;
-            noResults.style.display = "none";
-            return;
-        }
-
-
-        // Recherche sur la searchbar pour les ingredients , les noms de plat et la description 
-
-        var searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
-        const matchingRecipes = recipes.filter((recipe) => {
-
-            return recipe.name.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized) ||
-                recipe.ingredients.some((ingredient) => ingredient.ingredient.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)) ||
-                recipe.description.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized);
-
-        });
-
-
-        results.innerHTML = '';
-        if (matchingRecipes.length > 0) {
-            const recipeHTML = generateRecipeHTML(matchingRecipes);
-            recipeListDiv.innerHTML += recipeHTML;
-            noResults.style.display = "none";
-        }
-
-        if (matchingRecipes.length == 0) {
-
-            noResults.style.display = "block";
-        }
-    });
-}
-
-searchbar(searchInput, resultsContainer, noResult);
-
-
-// Croisement de toutes les recherches : 
-
-
 
 
 // Appel des functions de tagg

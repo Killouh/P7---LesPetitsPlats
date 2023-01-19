@@ -98,7 +98,7 @@ export const recipes = [
                 "quantity": 1
             },
             {
-                "ingredient": "Huile d olive",
+                "ingredient": "Huile d'olive",
                 "quantity": 1,
                "unit": "cuillères à soupe"
             }
@@ -317,7 +317,7 @@ export const recipes = [
                 "ingredient": "Vinaigre Balsamic"
             },
             {
-                "ingredient": "Huile d olive"
+                "ingredient": "Huile d'olive"
             }, 
             {
                 "ingredient": "Basilic"    
@@ -456,7 +456,7 @@ export const recipes = [
                 "unit":"cuillère à soupe"
             },
             {
-                "ingredient": "huile d olive",
+                "ingredient": "huile d'olive",
                 "quantity": 2,
                 "unit": "cuillère à soupe"
             }
@@ -571,7 +571,7 @@ export const recipes = [
                 "unit":"tiges"
             },
             {
-                "ingredient": "huile d olives",
+                "ingredient": "huile d'olives",
                 "quantity": 2,
                 "unit": "cuillère à soupe"
             }
@@ -697,7 +697,7 @@ export const recipes = [
                 "unit":"grammes"
             },
             {
-                "ingredient": "huile d olive",
+                "ingredient": "huile d'olive",
                 "quantity": 1,
                 "unit": "cuillères à soupe"
             }
@@ -910,7 +910,7 @@ export const recipes = [
                 "quantity": 1
             },
             {
-                "ingredient": "Huile d olives"
+                "ingredient": "Huile d'olives"
             },
             {
                 "ingredient": "Oignon",
@@ -1016,7 +1016,7 @@ export const recipes = [
                 "quantity": 2
             },
             {
-                "ingredient": "Huile d olive"
+                "ingredient": "Huile d'olive"
             },
             {
                 "ingredient": "Paprika"
@@ -1178,7 +1178,7 @@ export const recipes = [
                 "unit": "cl"
             },
             {
-                "ingredient": "Huile d olive"
+                "ingredient": "Huile d'olive"
             },
             {
                 "ingredient": "Orange",
@@ -1283,7 +1283,7 @@ export const recipes = [
                 "unit": "grammes"
             },
             {
-                "ingredient": "Huile d olives",
+                "ingredient": "Huile d'olives",
                 "quantity": 25,
                 "unit": "cl"
             },

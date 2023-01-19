@@ -140,7 +140,7 @@ export function highLightedTagg(highlightedItems, parentNodeClass) {
 
 
   highlightedItems.forEach(item => {
-    if (!selectedTaggContainer.querySelector(`[data-item='${item}']`)) {
+    if (!selectedTaggContainer.querySelector(`[data-item="${item}"]`)) {
       const selectedTaggContainer = document.getElementById("advancedSelectedFilterTags-container");
 
       const selectedTaggdiv = document.createElement('div');
