@@ -1,6 +1,6 @@
 import { recipes } from '../../data/recipes.js'
 import { generateRecipeHTML } from './factories/recipesFactory.js'
-import { createTagListContent, displayListButtons, highLightedTagg, updateListDisplays, removeHighlightedTagg, searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from './factories/tagsFactory.js'
+import { createTagListContent, displayListButtons, highLightedTagg, updateListDisplays, removeHighlightedTagg, searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg } from './factories/tagsFactory.js'
 import { translatebuttons } from '../scripts/utils/localisation.js'
 import { hideMenuOnClick, displayButtonsContent } from '../scripts/utils/display.js'
 import { minisearchbarIngredient, minisearchbarUstensils, minisearchbarAppliance, searchbar } from '../scripts/utils/searchBars.js'
@@ -27,9 +27,9 @@ translatebuttons();
 
 // //Génère le contenu des boutons
 const list = createTagListContent(recipes);
- let ingredientsArrayFinale = list.ingredientsArrayFinal;
- let applianceArrayFinale = list.applianceArrayFinal;
- let ustensilsArrayFinale = list.ustensilsArrayFinal;
+let ingredientsArrayFinale = list.ingredientsArrayFinal;
+let applianceArrayFinale = list.applianceArrayFinal;
+let ustensilsArrayFinale = list.ustensilsArrayFinal;
 
 // DOM Ingrédients
 const ingredientsDiv = document.querySelector(".advancedFilters-ingredients");
@@ -61,7 +61,8 @@ const ustensilsMenuArrow = document.querySelector(".menuArrow-ustensils");
 const miniSearchInputUstensils = document.querySelector('#search-ustensils');
 const resultsContainerUstensils = document.querySelector('#ustensils-lists');
 
-let compatibleRecipes = recipes;
+let compatibleRecipesFromTagg = recipes;
+let compatibleRecipesFromSearch = recipes;
 
 
 // Function ouverture par cas
@@ -73,7 +74,7 @@ hideMenuOnClick(ingredientsContainer, miniSearchContainerIngredients, ingredient
 hideMenuOnClick(applianceContainer, miniSearchContainerAppliance, applianceTag, appliancesDiv, applianceMenuArrow);
 hideMenuOnClick(ustensilsContainer, miniSearchContainerUstensils, ustensilsTag, ustensilsDiv, ustensilsMenuArrow);
 
-// Function qui ajoute un tagg en highlight
+// Function qui ajoute un tagg en highlight 
 
 function updateTaggList(highlightedItems, recipes) {
     let highlightedItemsLowered = highlightedItems.map(item => item.toLowerCase());
@@ -87,23 +88,25 @@ function updateTaggList(highlightedItems, recipes) {
     ingredientsContainer.innerHTML = "";
     applianceContainer.innerHTML = "";
     ustensilsContainer.innerHTML = "";
-    console.log(highlightedItems);
-    console.log(recipes);
     createTagListContent(recipes);
     return recipes;
 }
-function removeHighlightedItem(item, matchingRecipes, recipes) {
+// Recré les bonnes array lorsqu'on supprime un tagg choisi
+function removeHighlightedItem(item, compatibleRecipesFromTagg, recipes, highlightedItems) {
     const itemTxt = [item.previousSibling.textContent];
+    let highlightedItemsLowered = highlightedItems.map(item => item.toLowerCase());
     const filteredRecipes = recipes.filter(recipe => {
         let ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
         let ustensils = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
         let allItems = [...ingredients, recipe.appliance.toLowerCase(), ...ustensils];
-        let intersection = itemTxt.filter(item => allItems.includes(item));
-        return intersection.length !== itemTxt.length;
+        return highlightedItemsLowered.every(item => allItems.includes(item));
     });
-    matchingRecipes.push(...filteredRecipes);
+    const newRecipes = filteredRecipes.filter(recipe => !compatibleRecipesFromTagg.includes(recipe));
+    console.log(newRecipes);
+    compatibleRecipesFromTagg.push(...newRecipes);
 }
 
+// met en surbrillance un tagg cliqué
 function highlighManagement() {
     document.addEventListener('click', function (event) {
         let target = event.target;
@@ -133,13 +136,16 @@ function highlighManagement() {
                     highLightedTagg(highlightedItems, ColorClass);
                 }
             }
-            compatibleRecipes = updateTaggList(highlightedItems, compatibleRecipes);
+            compatibleRecipesFromTagg = updateTaggList(highlightedItems, compatibleRecipesFromTagg);
             updateListDisplays(target);
             resultsContainer.innerHTML = '';
             const recipeListDiv = document.getElementById("resultRecipes-container");
-            const recipeHTML = generateRecipeHTML(compatibleRecipes);
+            const recipeHTML = generateRecipeHTML(compatibleRecipesFromTagg);
             recipeListDiv.innerHTML += recipeHTML;
+            console.log(compatibleRecipesFromTagg);
+            
         }
+        crossedSearch();
     });
 
 
@@ -166,17 +172,18 @@ function crossRemoval() {
                 ustensilsContainer.innerHTML = "";
             }
             removeHighlightedTagg(highlightedItems, target, ingredientsArrayFinale, applianceArrayFinale, ustensilsArrayFinale);
-            removeHighlightedItem(target, compatibleRecipes, recipes);
+            removeHighlightedItem(target, compatibleRecipesFromTagg, recipes, highlightedItems);
             resultsContainer.innerHTML = '';
             const recipeListDiv = document.getElementById("resultRecipes-container");
-            const recipeHTML = generateRecipeHTML(compatibleRecipes);
+            const recipeHTML = generateRecipeHTML(compatibleRecipesFromTagg);
             recipeListDiv.innerHTML += recipeHTML;
         }
     });
 }
 
 // Appel de la fonction searchBar Principale : 
-searchbar(searchInput, resultsContainer, noResult);
+
+
 
 // Appel des fonctions minisearchBars
 minisearchbarIngredient(miniSearchInputIngredients, resultsContainerIngredients, ingredientsArrayFinale);
@@ -187,3 +194,21 @@ minisearchbarUstensils(miniSearchInputUstensils, resultsContainerUstensils, uste
 // Appel des functions de tagg
 highlighManagement();
 crossRemoval();
+
+// Croisement des recherches :
+function crossedSearch() {
+    if (highlightedItems.length === 0) {
+        console.log(compatibleRecipesFromSearch);
+        searchbar(searchInput, resultsContainer, noResult, compatibleRecipesFromSearch);
+        console.log("ok");
+    }
+    if (highlightedItems.length > 0) {
+        console.log(compatibleRecipesFromTagg);
+        searchbar(searchInput, resultsContainer, noResult, compatibleRecipesFromTagg);
+    }
+    if (searchInput.lenght > 0){
+        
+    }
+}
+
+crossedSearch();

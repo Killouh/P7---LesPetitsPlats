@@ -1,23 +1,26 @@
 import {searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from '../factories/tagsFactory.js'
 import {generateRecipeHTML } from '../factories/recipesFactory.js'
 import {recipes } from '../../data/recipes.js';
+import { highlightedItems } from '../search.js';
 
 // Finir la recherche croisée
-export function searchbar(searchbar, results, noResults, crossedRecipes ) {
+export function searchbar(searchbar, results, noResults, compatibleRecipes ) {
     searchbar.addEventListener('keyup', () => {
         const searchTerm = searchbar.value.toLowerCase();
         const recipeListDiv = document.getElementById("resultRecipes-container");
-        const recipeHTML = generateRecipeHTML(recipes);
 
         // Regles searchbar si saisie nulle ou < 3
         if (searchTerm.length === 0) {
+            results.innerHTML = '';
+            const recipeHTML = generateRecipeHTML(compatibleRecipes);
             recipeListDiv.innerHTML += recipeHTML;
             noResults.style.display = "none";
             return;
         }
 
         if (searchTerm.length < 3) {
-
+            results.innerHTML = '';
+            const recipeHTML = generateRecipeHTML(compatibleRecipes);
             recipeListDiv.innerHTML += recipeHTML;
             noResults.style.display = "none";
             return;
@@ -27,14 +30,13 @@ export function searchbar(searchbar, results, noResults, crossedRecipes ) {
         // Recherche sur la searchbar pour les ingredients , les noms de plat et la description 
 
         var searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
-        const matchingRecipes = recipes.filter((recipe) => {
+        const matchingRecipes = compatibleRecipes.filter((recipe) => {
 
             return recipe.name.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized) ||
                 recipe.ingredients.some((ingredient) => ingredient.ingredient.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)) ||
                 recipe.description.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized);
 
         });
-
 
         results.innerHTML = '';
         if (matchingRecipes.length > 0) {
@@ -47,7 +49,10 @@ export function searchbar(searchbar, results, noResults, crossedRecipes ) {
 
             noResults.style.display = "block";
         }
-    });
+    }
+
+    );
+
 }
 
 
