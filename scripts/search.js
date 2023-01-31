@@ -23,7 +23,7 @@ displayListButtons(recipes);
 // Traduit les bouton Tagg
 translatebuttons();
 
-// //Génère le contenu des boutons
+// Génère le contenu des boutons
 const list = createTagListContent(recipes);
 let ingredientsArrayFinale = list.ingredientsArrayFinal;
 let applianceArrayFinale = list.applianceArrayFinal;
@@ -214,6 +214,7 @@ function crossRemoval() {
 
 }
 
+
 // Appel des fonctions minisearchBars
 minisearchbarIngredient(miniSearchInputIngredients, resultsContainerIngredients, ingredientsArrayFinale);
 minisearchbarAppliance(miniSearchInputAppliance, resultsContainerAppliance, applianceArrayFinale);
@@ -232,8 +233,6 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
     searchbar.addEventListener('keyup', () => {
         let searchTerm = getSearchInputValue();
         searchTerm = searchbar.value.toLowerCase();
-
-        const recipeListDiv = document.getElementById("resultRecipes-container");
 
         // Regles searchbar si saisie nulle ou < 3
         if (searchTerm.length === 0) {

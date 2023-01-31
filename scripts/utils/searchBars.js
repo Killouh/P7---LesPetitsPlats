@@ -1,4 +1,7 @@
-import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from '../factories/tagsFactory.js'
+import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg, modifyListContent} from '../factories/tagsFactory.js'
+
+
+
 
 // Searchbar Ingrédient
 export function minisearchbarIngredient(searchbar, resultsContainer, array) {
@@ -82,7 +85,6 @@ export function minisearchbarUstensils(searchbar, resultsContainer, array) {
         if (searchTerm.length < 3) {
             resultsContainer.innerHTML = '';
             searchUstensilsTagg(array);
-
             return;
         }
 
