@@ -7,6 +7,10 @@ import { minisearchbarIngredient, minisearchbarUstensils, minisearchbarAppliance
 
 
 //DOM 
+
+let compatibleRecipesFromTagg = recipes;
+let compatibleRecipesFromSearch = recipes;
+let matchingRecipes = [];
 const searchInput = document.querySelector('#searchBar');
 const resultsContainer = document.querySelector('#resultRecipes-container');
 const noResult = document.getElementById("noResults");
@@ -15,16 +19,16 @@ let searchTerm = "";
 searchTerm = getSearchInputValue();
 
 // Genere les cartes de recettes
-htmlRecipes(recipes);
+htmlRecipes(compatibleRecipesFromTagg);
 
 // Genere les boutons Ingredient/Appareil/Ustensil
-displayListButtons(recipes);
+displayListButtons(compatibleRecipesFromTagg);
 
 // Traduit les bouton Tagg
 translatebuttons();
 
 // Génère le contenu des boutons
-const list = createTagListContent(recipes);
+const list = createTagListContent(compatibleRecipesFromTagg);
 let ingredientsArrayFinale = list.ingredientsArrayFinal;
 let applianceArrayFinale = list.applianceArrayFinal;
 let ustensilsArrayFinale = list.ustensilsArrayFinal;
@@ -59,9 +63,6 @@ const ustensilsMenuArrow = document.querySelector(".menuArrow-ustensils");
 const miniSearchInputUstensils = document.querySelector('#search-ustensils');
 const resultsContainerUstensils = document.querySelector('#ustensils-lists');
 
-let compatibleRecipesFromTagg = recipes;
-let compatibleRecipesFromSearch = recipes;
-let matchingRecipes = [];
 
 // Function ouverture par cas
 displayButtonsContent(ingredientsButton, ingredientsContainer, miniSearchContainerIngredients, ingredientsTag, ingredientsDiv, ingredientsMenuArrow);
@@ -130,6 +131,7 @@ function highlightManagement() {
                 if (index !== -1) {
                     highlightedItems.push(arrayIngredient.splice(index, 1)[0]);
                     highLightedTagg(highlightedItems, ColorClass);
+                    minisearchbarIngredient(miniSearchInputIngredients, resultsContainerIngredients, arrayIngredient);
                 }
             }
             else if (event.target.parentNode.parentNode.classList.contains('appliance-color')) {
@@ -216,7 +218,7 @@ function crossRemoval() {
 
 
 // Appel des fonctions minisearchBars
-minisearchbarIngredient(miniSearchInputIngredients, resultsContainerIngredients, ingredientsArrayFinale);
+// minisearchbarIngredient(miniSearchInputIngredients, resultsContainerIngredients, ingredientsArrayFinale);
 minisearchbarAppliance(miniSearchInputAppliance, resultsContainerAppliance, applianceArrayFinale);
 minisearchbarUstensils(miniSearchInputUstensils, resultsContainerUstensils, ustensilsArrayFinale);
 
@@ -235,7 +237,7 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
         searchTerm = searchbar.value.toLowerCase();
 
         // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0) {
+        if (searchTerm.length === 0 || searchTerm.length < 3 ) {
             updateTaggList(highlightedItems, compatibleRecipes)
             results.innerHTML = '';
             htmlRecipes(compatibleRecipes);
@@ -243,14 +245,6 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
             return;
         }
 
-        // Regles searchbar si saisie > 3 caractères
-        if (searchTerm.length < 3) {
-            updateTaggList(highlightedItems, matchingRecipes)
-            results.innerHTML = '';
-            htmlRecipes(compatibleRecipes);
-            noResults.style.display = "none";
-            return
-        }
 
         // Recherche sur la searchbar pour les ingredients , les noms de plat et la description 
 

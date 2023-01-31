@@ -1,4 +1,4 @@
-import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg, modifyListContent} from '../factories/tagsFactory.js'
+import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from '../factories/tagsFactory.js'
 
 
 
@@ -9,18 +9,13 @@ export function minisearchbarIngredient(searchbar, resultsContainer, array) {
         const searchTerm = searchbar.value.toLowerCase();
 
         // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0) {
+        if (searchTerm.length === 0 || searchTerm.length < 3 ) {
             resultsContainer.innerHTML = '';
             searchIngredientTagg(array);
 
             return;
         }
 
-        if (searchTerm.length < 3) {
-            resultsContainer.innerHTML = '';
-            searchIngredientTagg(array);
-            return;
-        }
 
         // Recherche sur la searchbar pour les ingredients et les noms de plat //
         var searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
@@ -42,16 +37,9 @@ export function minisearchbarAppliance(searchbar, resultsContainer, array) {
         const searchTerm = searchbar.value.toLowerCase();
 
         // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0) {
-            searchApplianceTagg(array);
-
-            return;
-        }
-
-        if (searchTerm.length < 3) {
+        if (searchTerm.length === 0 || searchTerm.length < 3 ) {
             resultsContainer.innerHTML = '';
             searchApplianceTagg(array);
-
             return;
         }
 
@@ -75,16 +63,10 @@ export function minisearchbarUstensils(searchbar, resultsContainer, array) {
         const searchTerm = searchbar.value.toLowerCase();
 
         // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0) {
+        if (searchTerm.length === 0 || searchTerm.length < 3 ) {
             resultsContainer.innerHTML = '';
             searchUstensilsTagg(array);
 
-            return;
-        }
-
-        if (searchTerm.length < 3) {
-            resultsContainer.innerHTML = '';
-            searchUstensilsTagg(array);
             return;
         }
 
