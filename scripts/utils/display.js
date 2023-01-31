@@ -1,3 +1,5 @@
+import { generateRecipeHTML } from '../factories/recipesFactory.js'
+
 // Affiche le contenu du bouton Tagg // Faire des class CSS supplémentaires
 export function displayButtonsContent(button, container, miniSearch, objectTag, objectDiv, arrow, miniSearchBar) {
     let cssVisibility = "visible";
@@ -46,5 +48,22 @@ export function hideMenuOnClick(container, miniSearch, objectTag, objectDiv, arr
     });
 }
 
+// Reset les affichages pour générer les nouveau ensuite (suite à des recherches etc)
+export function resetButtonContent(){
+    const applianceContainer = document.querySelector("#appliance-lists");
+    const ustensilsContainer = document.querySelector("#ustensils-lists");
+    const ingredientsContainer = document.querySelector("#ingredients-lists");
+
+    ingredientsContainer.innerHTML = "";
+    applianceContainer.innerHTML = "";
+    ustensilsContainer.innerHTML = "";
+}
+
+// Genere la liste des recettes données
+export function htmlRecipes(recipes){
+    const recipeListDiv = document.getElementById("resultRecipes-container");
+    const recipeHTML = generateRecipeHTML(recipes);
+    recipeListDiv.innerHTML += recipeHTML;
+}
 
 

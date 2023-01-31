@@ -1,19 +1,6 @@
-import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg, createTagListContent } from '../factories/tagsFactory.js'
-import { generateRecipeHTML } from '../factories/recipesFactory.js'
-import { recipes } from '../../data/recipes.js';
-import { highlightedItems, ingredientsContainer, applianceContainer, ustensilsContainer, updateTaggList } from '../search.js';
+import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from '../factories/tagsFactory.js'
 
-
-// Finir la recherche croisée
-
-
-
-
-
-
-
-
-// Les trois mini searchbar spécifiques à chaque menu
+// Searchbar Ingrédient
 export function minisearchbarIngredient(searchbar, resultsContainer, array) {
     searchbar.addEventListener('keyup', () => {
         const searchTerm = searchbar.value.toLowerCase();
@@ -37,7 +24,6 @@ export function minisearchbarIngredient(searchbar, resultsContainer, array) {
         const matchingRecipes = array.filter((item) => {
             return item.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)
         });
-        console.log(matchingRecipes);
 
         resultsContainer.innerHTML = '';
 
@@ -47,6 +33,7 @@ export function minisearchbarIngredient(searchbar, resultsContainer, array) {
     });
 };
 
+// Searchbar Appliance
 export function minisearchbarAppliance(searchbar, resultsContainer, array) {
     searchbar.addEventListener('keyup', () => {
         const searchTerm = searchbar.value.toLowerCase();
@@ -70,7 +57,6 @@ export function minisearchbarAppliance(searchbar, resultsContainer, array) {
         const matchingRecipes = array.filter((item) => {
             return item.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)
         });
-        console.log(matchingRecipes);
 
         resultsContainer.innerHTML = '';
 
@@ -80,6 +66,7 @@ export function minisearchbarAppliance(searchbar, resultsContainer, array) {
     });
 };
 
+// Searchbar Ustensils
 export function minisearchbarUstensils(searchbar, resultsContainer, array) {
     searchbar.addEventListener('keyup', () => {
         const searchTerm = searchbar.value.toLowerCase();
@@ -104,7 +91,6 @@ export function minisearchbarUstensils(searchbar, resultsContainer, array) {
         const matchingRecipes = array.filter((item) => {
             return item.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)
         });
-        console.log(matchingRecipes);
 
         resultsContainer.innerHTML = '';
 
@@ -113,3 +99,19 @@ export function minisearchbarUstensils(searchbar, resultsContainer, array) {
         }
     });
 };
+
+
+// Permet d'écouter ce qui est saisie dans la barre de recherche lors de l'utilisation de cross removal
+export function updateRecipes(compatibleRecipes, searchbar, searchTerm) {
+    let updatedRecipes = compatibleRecipes;
+    if (searchbar.value.length > 0) {
+        searchTerm = searchbar.value.toLowerCase();
+      let searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
+      updatedRecipes = updatedRecipes.filter((recipe) => {
+        return recipe.name.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized) ||
+          recipe.ingredients.some((ingredient) => ingredient.ingredient.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)) ||
+          recipe.description.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized);
+      });
+    }
+    return updatedRecipes;
+  }

@@ -8,7 +8,14 @@ function createTagList(array) {
   const listTitles = [listTitleIng, listTitleApp, listTitleUst]
   return listTitles
 }
+// Crée les boutons avec les noms de createTagList
+export function displayListButtons(array) {
+  const buttonsEntitled = createTagList(array);
 
+  buttonsEntitled.forEach(element => getListBlock(element));
+
+  return buttonsEntitled;
+}
 
 // Creer les boutons Tag 
 function getListBlock(element) {
@@ -50,13 +57,6 @@ function getListBlock(element) {
 }
 
 
-export function displayListButtons(array) {
-  const buttonsEntitled = createTagList(array);
-
-  buttonsEntitled.forEach(element => getListBlock(element));
-
-  return buttonsEntitled;
-}
 
 // Créer la liste de tagg 
 export function createTagListContent(recipes) {
@@ -135,6 +135,7 @@ export function createTagListContent(recipes) {
   return { ingredientsArrayFinal, applianceArrayFinal, ustensilsArrayFinal }
 }
 
+// Crée les highLightedTagg
 export function highLightedTagg(highlightedItems, parentNodeClass) {
   const selectedTaggContainer = document.getElementById("advancedSelectedFilterTags-container");
 
@@ -160,11 +161,14 @@ export function highLightedTagg(highlightedItems, parentNodeClass) {
       selectedTaggContainer.appendChild(selectedTaggdiv);
       selectedTaggdiv.appendChild(selecTaggButton);
       selectedTaggdiv.appendChild(selectedTaggCross);
+
+      //Ajouter event listenner a la creatioon de l'item & Cross pour le removal
+
     }
   });
 }
 
-
+// Met à jours la liste des tagg dispo après manipulations
 export function modifyListContent(ingredientsArray, appliancesArray, ustensilsArray) {
 
   // Supprime les doublons des deux arrays
@@ -224,12 +228,13 @@ export function modifyListContent(ingredientsArray, appliancesArray, ustensilsAr
   return { ingredientsArray, appliancesArray, ustensilsArray }
 }
 
-
+// Supprime l'élément cliqué dans la list des tagg
 export function updateListDisplays(target) {
   target.parentNode.remove();
 }
 
-export function removeHighlightedTagg(highlightedItems, target, arrayIngredient, arrayAppliance, arrayUstensils) {
+// Met à jour la liste des tagg des buttons quand un tagg est supprimé de la surbrillance
+export function removalTaggListRefresh(highlightedItems, target, arrayIngredient, arrayAppliance, arrayUstensils) {
   const targetItem = target.previousSibling.textContent;
 
   // Trouver l'index de l'item dans l'array highlightedItems
@@ -255,10 +260,7 @@ export function removeHighlightedTagg(highlightedItems, target, arrayIngredient,
 }
 
 
-
-
-// a optimiser pour une fonction unique
-
+// Génère l'affichage ingrédient apres une recherche sur le bouton ingrédient
 export function searchIngredientTagg(ingredientsArray) {
   ingredientsArray = [...new Set(ingredientsArray)];
   const ingredientsArrayCaseSensitive = ingredientsArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
@@ -278,6 +280,7 @@ export function searchIngredientTagg(ingredientsArray) {
   return ingredientsArray
 }
 
+// Génère l'affichage appliance apres une recherche sur le bouton appliance
 export function searchApplianceTagg(appliancesArray) {
   appliancesArray = [...new Set(appliancesArray)];
   const appliancesArrayCaseSensitive = appliancesArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
@@ -297,6 +300,7 @@ export function searchApplianceTagg(appliancesArray) {
   return appliancesArray
 }
 
+// Génère l'affichage ustensil apres une recherche sur le bouton ustensil
 export function searchUstensilsTagg(ustensilsArray) {
   ustensilsArray = [...new Set(ustensilsArray)];
   const ustensilsArrayCaseSensitive = ustensilsArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
