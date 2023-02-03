@@ -9,12 +9,6 @@ export function minisearchbarIngredient(searchbar, resultsContainer, array, high
     searchbar.addEventListener('keyup', () => {
         const searchTerm = searchbar.value.toLowerCase();
 
-        if (searchTerm.length == 0) {
-            resultsContainer.innerHTML = '';
-            searchIngredientTagg(array, highlightedItems);
-            return;
-        }
-
         if (searchTerm.length < 0) {
             resultsContainer.innerHTML = '';
             searchIngredientTagg(array, highlightedItems);
