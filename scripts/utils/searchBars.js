@@ -105,3 +105,32 @@ export function updateRecipes(compatibleRecipes, searchbar, searchTerm) {
     }
     return updatedRecipes;
   }
+
+  export function extractIngredients(compatibleRecipesFromTagg) {
+    let ingredients = [];
+    compatibleRecipesFromTagg.forEach(recipe => {
+        recipe.ingredients.forEach(ingredient => {
+            ingredients.push(ingredient.ingredient);
+        });
+    });
+    return ingredients;
+}
+
+export function extractUstensils(compatibleRecipesFromTagg) {
+    let ustensils = [];
+    compatibleRecipesFromTagg.forEach(recipe => {
+        recipe.ustensils.forEach(ustensil => {
+            ustensils.push(ustensil);
+        });
+    });
+    return ustensils;
+}
+
+export function extractAppliance(compatibleRecipesFromTagg) {
+    let appliance = [];
+    compatibleRecipesFromTagg.forEach(recipe => {
+        appliance.push(recipe.appliance);
+    });
+
+    return appliance;
+}
