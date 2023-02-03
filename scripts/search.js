@@ -153,7 +153,7 @@ function highlightManagement() {
                 updateListDisplays(target);
                 resultsContainer.innerHTML = '';
                 htmlRecipes(compatibleRecipesFromTagg);
-                crossedSearch();
+                searchCase();
             }
             if (searchTerm.length > 0) {
                 compatibleRecipesFromTagg = updateTaggList(highlightedItems, compatibleRecipesFromTagg);
@@ -164,7 +164,7 @@ function highlightManagement() {
                 updateListDisplays(target);
                 resultsContainer.innerHTML = '';
                 htmlRecipes(matchingRecipes);
-                crossedSearch();
+                searchCase();
             }
 
 
@@ -229,7 +229,7 @@ highlightManagement();
 crossRemoval();
 
 // Fonction recherche adaptée en fonction de la situation
-crossedSearch()
+searchCase()
 
 function searchbar(searchbar, results, noResults, compatibleRecipes) {
     searchbar.addEventListener('keyup', () => {
@@ -275,11 +275,56 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
 }
 
 // Croisement des recherches : // revoir trop a base d'array filtrée
-function crossedSearch() {
+// Croisement des recherches : // revoir trop a base d'array filtrée (rename la function)
+function searchCase() { // voir ajout paramètre
     if (highlightedItems.length === 0) {
+
+
         searchbar(searchInput, resultsContainer, noResult, compatibleRecipesFromSearch);
+        minisearchbarIngredient(miniSearchInputIngredients, resultsContainerIngredients, ingredientsArrayFinale, highlightedItems);
+        minisearchbarAppliance(miniSearchInputAppliance, resultsContainerAppliance, applianceArrayFinale, highlightedItems);
+        minisearchbarUstensils(miniSearchInputUstensils, resultsContainerUstensils, ustensilsArrayFinale, highlightedItems);
+
     }
     if (highlightedItems.length > 0) {
         searchbar(searchInput, resultsContainer, noResult, compatibleRecipesFromTagg);
+
+        let ingredientsList = extractIngredients(compatibleRecipesFromTagg);
+        let applianceList = extractAppliance(compatibleRecipesFromTagg);
+        let ustensilsList = extractUstensils(compatibleRecipesFromTagg);
+
+        minisearchbarIngredient(miniSearchInputIngredients, resultsContainerIngredients, ingredientsList, highlightedItems);
+        minisearchbarAppliance(miniSearchInputAppliance, resultsContainerAppliance, applianceList, highlightedItems);
+        minisearchbarUstensils(miniSearchInputUstensils, resultsContainerUstensils, ustensilsList, highlightedItems);
+
     }
+}
+
+function extractIngredients(compatibleRecipesFromTagg) {
+    let ingredients = [];
+    compatibleRecipesFromTagg.forEach(recipe => {
+        recipe.ingredients.forEach(ingredient => {
+            ingredients.push(ingredient.ingredient);
+        });
+    });
+    return ingredients;
+}
+
+function extractUstensils(compatibleRecipesFromTagg) {
+    let ustensils = [];
+    compatibleRecipesFromTagg.forEach(recipe => {
+        recipe.ustensils.forEach(ustensil => {
+            ustensils.push(ustensil);
+        });
+    });
+    return ustensils;
+}
+
+function extractAppliance(compatibleRecipesFromTagg) {
+    let appliance = [];
+    compatibleRecipesFromTagg.forEach(recipe => {
+        appliance.push(recipe.appliance);
+    });
+
+    return appliance;
 }
