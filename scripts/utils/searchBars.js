@@ -3,19 +3,23 @@ import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from '.
 
 
 
+
 // Searchbar Ingrédient
-export function minisearchbarIngredient(searchbar, resultsContainer, array) {
+export function minisearchbarIngredient(searchbar, resultsContainer, array, highlightedItems) {
     searchbar.addEventListener('keyup', () => {
         const searchTerm = searchbar.value.toLowerCase();
 
-        // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0 || searchTerm.length < 3 ) {
+        if (searchTerm.length == 0) {
             resultsContainer.innerHTML = '';
-            searchIngredientTagg(array);
-
+            searchIngredientTagg(array, highlightedItems);
             return;
         }
 
+        if (searchTerm.length < 0) {
+            resultsContainer.innerHTML = '';
+            searchIngredientTagg(array, highlightedItems);
+            return;
+        }
 
         // Recherche sur la searchbar pour les ingredients et les noms de plat //
         var searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
@@ -26,20 +30,20 @@ export function minisearchbarIngredient(searchbar, resultsContainer, array) {
         resultsContainer.innerHTML = '';
 
         if (matchingRecipes.length > 0) {
-            searchIngredientTagg(matchingRecipes);
+            searchIngredientTagg(matchingRecipes, highlightedItems);
         }
     });
 };
 
 // Searchbar Appliance
-export function minisearchbarAppliance(searchbar, resultsContainer, array) {
+export function minisearchbarAppliance(searchbar, resultsContainer, array, highlightedItems) {
     searchbar.addEventListener('keyup', () => {
         const searchTerm = searchbar.value.toLowerCase();
 
-        // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0 || searchTerm.length < 3 ) {
+
+        if (searchTerm.length < 0) {
             resultsContainer.innerHTML = '';
-            searchApplianceTagg(array);
+            searchApplianceTagg(array, highlightedItems);
             return;
         }
 
@@ -52,21 +56,21 @@ export function minisearchbarAppliance(searchbar, resultsContainer, array) {
         resultsContainer.innerHTML = '';
 
         if (matchingRecipes.length > 0) {
-            searchApplianceTagg(matchingRecipes);
+            searchApplianceTagg(matchingRecipes, highlightedItems);
         }
     });
 };
 
 // Searchbar Ustensils
-export function minisearchbarUstensils(searchbar, resultsContainer, array) {
+export function minisearchbarUstensils(searchbar, resultsContainer, array, highlightedItems) {
     searchbar.addEventListener('keyup', () => {
         const searchTerm = searchbar.value.toLowerCase();
 
-        // Regles searchbar si saisie nulle ou < 3
-        if (searchTerm.length === 0 || searchTerm.length < 3 ) {
-            resultsContainer.innerHTML = '';
-            searchUstensilsTagg(array);
 
+
+        if (searchTerm.length < 3) {
+            resultsContainer.innerHTML = '';
+            searchUstensilsTagg(array, highlightedItems);
             return;
         }
 
@@ -79,10 +83,11 @@ export function minisearchbarUstensils(searchbar, resultsContainer, array) {
         resultsContainer.innerHTML = '';
 
         if (matchingRecipes.length > 0) {
-            searchUstensilsTagg(matchingRecipes);
+            searchUstensilsTagg(matchingRecipes, highlightedItems);
         }
     });
 };
+
 
 
 // Permet d'écouter ce qui est saisie dans la barre de recherche lors de l'utilisation de cross removal

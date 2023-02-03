@@ -259,14 +259,14 @@ export function removalTaggListRefresh(highlightedItems, target, arrayIngredient
   modifyListContent(arrayIngredient, arrayAppliance, arrayUstensils);
 }
 
-
 // Génère l'affichage ingrédient apres une recherche sur le bouton ingrédient
-export function searchIngredientTagg(ingredientsArray) {
+export function searchIngredientTagg(ingredientsArray, highlightedItem) {
   ingredientsArray = [...new Set(ingredientsArray)];
   const ingredientsArrayCaseSensitive = ingredientsArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
   const ingredientsArrayFinal = ingredientsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
   const ingredientsTagHtmlDiv = document.getElementById("ingredients-lists");
   ingredientsArrayFinal.forEach(ingredient => {
+    if (!highlightedItem.includes(ingredient)) {
     //Création d'un element li pour chaque ingrédient
     const ingredientItem = document.createElement('li');
     const ingredientButton = document.createElement('button');
@@ -276,17 +276,19 @@ export function searchIngredientTagg(ingredientsArray) {
     ingredientButton.innerHTML = ingredient;
     ingredientItem.appendChild(ingredientButton);
     ingredientsTagHtmlDiv.appendChild(ingredientItem);
+    }
   });
   return ingredientsArray
 }
 
 // Génère l'affichage appliance apres une recherche sur le bouton appliance
-export function searchApplianceTagg(appliancesArray) {
+export function searchApplianceTagg(appliancesArray, highlightedItem) {
   appliancesArray = [...new Set(appliancesArray)];
   const appliancesArrayCaseSensitive = appliancesArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
   const applianceArrayFinal = appliancesArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
   const applianceTagHtmlDiv = document.getElementById("appliance-lists");
   applianceArrayFinal.forEach(appliance => {
+    if (!highlightedItem.includes(appliance)) {
     //Création d'un element li pour chaque ingrédient
     const applianceItem = document.createElement('li');
     const applianceButton = document.createElement('button');
@@ -296,17 +298,19 @@ export function searchApplianceTagg(appliancesArray) {
     applianceButton.innerHTML = appliance;
     applianceItem.appendChild(applianceButton);
     applianceTagHtmlDiv.appendChild(applianceItem);
+    }
   });
   return appliancesArray
 }
 
 // Génère l'affichage ustensil apres une recherche sur le bouton ustensil
-export function searchUstensilsTagg(ustensilsArray) {
+export function searchUstensilsTagg(ustensilsArray, highlightedItem) {
   ustensilsArray = [...new Set(ustensilsArray)];
   const ustensilsArrayCaseSensitive = ustensilsArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
   const ustensilsArrayFinal = ustensilsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
   const ustensilsTagHtmlDiv = document.getElementById("ustensils-lists");
   ustensilsArrayFinal.forEach(ustensil => {
+    if (!highlightedItem.includes(ustensil)) {
     //Création d'un element li pour chaque ingrédient
     const ustensilItem = document.createElement('li');
     const ustensilButton = document.createElement('button');
@@ -316,6 +320,7 @@ export function searchUstensilsTagg(ustensilsArray) {
     ustensilButton.innerHTML = ustensil;
     ustensilItem.appendChild(ustensilButton);
     ustensilsTagHtmlDiv.appendChild(ustensilItem);
+    }
   });
   return ustensilsArray
 }
