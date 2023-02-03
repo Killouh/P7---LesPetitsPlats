@@ -4,10 +4,18 @@ import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from '.
 
 
 
+// modifier quand tagg  deja présent et chercher sur les ingre/ust/appl filtrés
+
 // Searchbar Ingrédient
 export function minisearchbarIngredient(searchbar, resultsContainer, array, highlightedItems) {
     searchbar.addEventListener('keyup', () => {
         const searchTerm = searchbar.value.toLowerCase();
+
+        if (searchTerm.length == 0) {
+            resultsContainer.innerHTML = '';
+            searchIngredientTagg(array, highlightedItems);
+            return;
+        }
 
         if (searchTerm.length < 0) {
             resultsContainer.innerHTML = '';
@@ -81,7 +89,6 @@ export function minisearchbarUstensils(searchbar, resultsContainer, array, highl
         }
     });
 };
-
 
 
 // Permet d'écouter ce qui est saisie dans la barre de recherche lors de l'utilisation de cross removal
