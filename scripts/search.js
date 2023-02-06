@@ -1,4 +1,4 @@
-import { recipes } from '../../data/recipes.js'
+import { recipes } from '../data/recipes.js'
 import { createTagListContent, displayListButtons, highLightedTagg, updateListDisplays, removalTaggListRefresh } from './factories/tagsFactory.js'
 import { translatebuttons } from '../scripts/utils/localisation.js'
 import { hideMenuOnClick, displayButtonsContent, resetButtonContent, htmlRecipes } from '../scripts/utils/display.js'
