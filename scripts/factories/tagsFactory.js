@@ -258,14 +258,14 @@ export function searchIngredientTagg(ingredientsArray, highlightedItem) {
   ingredientsArrayFinal.forEach(ingredient => {
     if (!highlightedItem.includes(ingredient)) {
     //Création d'un element li pour chaque ingrédient
-    const ingredientItem = document.createElement('li');
-    const ingredientButton = document.createElement('button');
-    ingredientItem.classList.add('list');
-    ingredientButton.classList.add('List-data');
-    ingredientButton.type = "button";
-    ingredientButton.innerHTML = ingredient;
-    ingredientItem.appendChild(ingredientButton);
-    ingredientsTagHtmlDiv.appendChild(ingredientItem);
+      const ingredientItem = document.createElement('li');
+      const ingredientButton = document.createElement('button');
+      ingredientItem.classList.add('list');
+      ingredientButton.classList.add('List-data');
+      ingredientButton.type = "button";
+      ingredientButton.innerHTML = ingredient;
+      ingredientItem.appendChild(ingredientButton);
+      ingredientsTagHtmlDiv.appendChild(ingredientItem);
     }
   });
   return ingredientsArray
@@ -280,14 +280,14 @@ export function searchApplianceTagg(appliancesArray, highlightedItem) {
   applianceArrayFinal.forEach(appliance => {
     if (!highlightedItem.includes(appliance)) {
     //Création d'un element li pour chaque ingrédient
-    const applianceItem = document.createElement('li');
-    const applianceButton = document.createElement('button');
-    applianceItem.classList.add('list');
-    applianceButton.classList.add('List-data');
-    applianceButton.type = "button";
-    applianceButton.innerHTML = appliance;
-    applianceItem.appendChild(applianceButton);
-    applianceTagHtmlDiv.appendChild(applianceItem);
+      const applianceItem = document.createElement('li');
+      const applianceButton = document.createElement('button');
+      applianceItem.classList.add('list');
+      applianceButton.classList.add('List-data');
+      applianceButton.type = "button";
+      applianceButton.innerHTML = appliance;
+      applianceItem.appendChild(applianceButton);
+      applianceTagHtmlDiv.appendChild(applianceItem);
     }
   });
   return appliancesArray
@@ -302,14 +302,14 @@ export function searchUstensilsTagg(ustensilsArray, highlightedItem) {
   ustensilsArrayFinal.forEach(ustensil => {
     if (!highlightedItem.includes(ustensil)) {
     //Création d'un element li pour chaque ingrédient
-    const ustensilItem = document.createElement('li');
-    const ustensilButton = document.createElement('button');
-    ustensilItem.classList.add('list');
-    ustensilButton.classList.add('List-data');
-    ustensilButton.type = "button";
-    ustensilButton.innerHTML = ustensil;
-    ustensilItem.appendChild(ustensilButton);
-    ustensilsTagHtmlDiv.appendChild(ustensilItem);
+      const ustensilItem = document.createElement('li');
+      const ustensilButton = document.createElement('button');
+      ustensilItem.classList.add('list');
+      ustensilButton.classList.add('List-data');
+      ustensilButton.type = "button";
+      ustensilButton.innerHTML = ustensil;
+      ustensilItem.appendChild(ustensilButton);
+      ustensilsTagHtmlDiv.appendChild(ustensilItem);
     }
   });
   return ustensilsArray
