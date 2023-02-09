@@ -1,11 +1,5 @@
 import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from '../factories/tagsFactory.js'
 
-
-
-
-
-// modifier quand tagg  deja présent et chercher sur les ingre/ust/appl filtrés
-
 // Searchbar Ingrédient
 export function minisearchbarIngredient(searchbar, resultsContainer, array, highlightedItems) {
     searchbar.addEventListener('keyup', () => {
@@ -91,7 +85,7 @@ export function minisearchbarUstensils(searchbar, resultsContainer, array, highl
 };
 
 
-// Permet d'écouter ce qui est saisie dans la barre de recherche lors de l'utilisation de cross removal
+// Permet d'écouter ce qui est saisi dans la barre de recherche lors de l'utilisation de cross removal
 export function updateRecipes(compatibleRecipes, searchbar, searchTerm) {
     let updatedRecipes = compatibleRecipes;
     if (searchbar.value.length > 0) {
@@ -106,6 +100,8 @@ export function updateRecipes(compatibleRecipes, searchbar, searchTerm) {
     return updatedRecipes;
   }
 
+
+  // Crée les array de chaque type de Tagg
   export function extractIngredients(compatibleRecipesFromTagg) {
     let ingredients = [];
     compatibleRecipesFromTagg.forEach(recipe => {

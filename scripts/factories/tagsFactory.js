@@ -1,5 +1,3 @@
-import { highlightedItems } from '../search.js';
-
 // Selectionner les nom de tagg dans le tableau
 function createTagList(array) {
   const listTitleIng = (Object.keys(array[0]))[3]
@@ -19,7 +17,6 @@ export function displayListButtons(array) {
 
 // Creer les boutons Tag 
 function getListBlock(element) {
-
 
   const advancedFiltersMenu = document.getElementById('advancedFilters-list');
 
@@ -41,7 +38,7 @@ function getListBlock(element) {
   divButtonSearchBar.setAttribute('id', `search-${element}`);
   divButtonSearchBar.setAttribute('placeholder', `Rechercher dans ${element}`);
 
-  // mettre une valeur par défaut
+
   const menuBlock = document.createElement('menu');
   menuBlock.setAttribute('class', `${element}-color`);
   menuBlock.setAttribute('id', `${element}-lists`);
@@ -56,10 +53,8 @@ function getListBlock(element) {
 
 }
 
-
-
 // Créer la liste de tagg 
-export function createTagListContent(recipes) {
+export function createTagListContent(recipes, highlightedItems) {
 
   // Créer liste des ingrédients
   let ingredientsArray = [];
@@ -135,7 +130,7 @@ export function createTagListContent(recipes) {
   return { ingredientsArrayFinal, applianceArrayFinal, ustensilsArrayFinal }
 }
 
-// Crée les highLightedTagg
+// Crée les highLightedTagg en front
 export function highLightedTagg(highlightedItems, parentNodeClass) {
   const selectedTaggContainer = document.getElementById("advancedSelectedFilterTags-container");
 
@@ -161,9 +156,6 @@ export function highLightedTagg(highlightedItems, parentNodeClass) {
       selectedTaggContainer.appendChild(selectedTaggdiv);
       selectedTaggdiv.appendChild(selecTaggButton);
       selectedTaggdiv.appendChild(selectedTaggCross);
-
-      //Ajouter event listenner a la creatioon de l'item & Cross pour le removal
-
     }
   });
 }
@@ -228,10 +220,6 @@ export function modifyListContent(ingredientsArray, appliancesArray, ustensilsAr
   return { ingredientsArray, appliancesArray, ustensilsArray }
 }
 
-// Supprime l'élément cliqué dans la list des tagg
-export function updateListDisplays(target) {
-  target.parentNode.remove();
-}
 
 // Met à jour la liste des tagg des buttons quand un tagg est supprimé de la surbrillance
 export function removalTaggListRefresh(highlightedItems, target, arrayIngredient, arrayAppliance, arrayUstensils) {

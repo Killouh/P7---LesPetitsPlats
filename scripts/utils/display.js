@@ -1,6 +1,6 @@
 import { generateRecipeHTML } from '../factories/recipesFactory.js'
 
-// Affiche le contenu du bouton Tagg // Faire des class CSS supplémentaires
+// Affiche le contenu du bouton Tagg
 export function displayButtonsContent(button, container, miniSearch, objectTag, objectDiv, arrow, miniSearchBar) {
     let cssVisibility = "visible";
     let cssDisplay = "block";
