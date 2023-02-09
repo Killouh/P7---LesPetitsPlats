@@ -1,0 +1,23 @@
+{
+  "name": "p7---lespetitsplats",
+  "version": "1.0.0",
+  "description": "Site les Petits Plats",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --max-warnings=0 ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Killouh/P7---LesPetitsPlats.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Killouh/P7---LesPetitsPlats/issues"
+  },
+  "homepage": "https://github.com/Killouh/P7---LesPetitsPlats#readme",
+  "devDependencies": {
+    "eslint": "^8.27.0",
+    "yorkie": "^2.0.0"
+  }
+}
