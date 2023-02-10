@@ -117,16 +117,18 @@ function removeHighlightedItem(compatibleRecipesFromTagg, recipes, highlightedIt
 }
 
 // Met en surbrillance un tagg cliqué
+
 function highlightManagement() {
 
   document.addEventListener('click', function (event) {
     let target = event.target;
     searchTerm = getSearchInputValue();
-
+    
     if (target.matches(".List-data")) {
       let arrayIngredient = ingredientsArrayFinale;
       let arrayAppliance = applianceArrayFinale;
       let arrayUstensils = ustensilsArrayFinale;
+      
       const ColorClass = event.target.parentNode.parentNode.classList;
       if (event.target.parentNode.parentNode.classList.contains('ingredients-color')) {
         let index = arrayIngredient.indexOf(target.innerHTML);
@@ -156,14 +158,18 @@ function highlightManagement() {
         searchCase();
       }
       if (searchTerm.length > 0) {
+        
         compatibleRecipesFromTagg = updateTaggList(highlightedItems, compatibleRecipesFromTagg);
+        matchingRecipes = updateTaggList(highlightedItems, matchingRecipes);
+        console.log(matchingRecipes);
         matchingRecipes = compatibleRecipesFromTagg.filter(function (recipe) {
           return matchingRecipes.indexOf(recipe) !== -1;
         });
-        matchingRecipes = updateTaggList(highlightedItems, matchingRecipes);
+        
         resultsContainer.innerHTML = '';
         htmlRecipes(matchingRecipes);
         searchCase();
+        
       }
 
 
@@ -196,7 +202,6 @@ function crossRemoval() {
         matchingRecipes = updateRecipes(recipes, searchInput, searchTerm); // recalcule en prennant en compte le contenu de la searchbar
         updateTaggList(highlightedItems, matchingRecipes)
         htmlRecipes(updateRecipes(compatibleRecipesFromTagg, searchInput, searchTerm));
-        console.log(compatibleRecipesFromTagg)
       }
       if (searchTerm.length > 2 && highlightedItems.length === 0) {
         removeHighlightedItem(compatibleRecipesFromTagg, recipes, highlightedItems);
@@ -245,14 +250,19 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
 
     // Recherche sur la searchbar pour les ingredients , les noms de plat et la description 
 
-    var searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
-    matchingRecipes = compatibleRecipes.filter((recipe) => {
+    let searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
+    matchingRecipes = [];
+    let i = 0;
+    while (i < compatibleRecipes.length) {
+      let recipe = compatibleRecipes[i];
+      if (recipe.name.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized) ||
+        recipe.ingredients.some((ingredient) => ingredient.ingredient.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)) ||
+        recipe.description.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)) {
+        matchingRecipes.push(recipe);
+      }
+      i++;
+    }
 
-      return recipe.name.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized) ||
-                recipe.ingredients.some((ingredient) => ingredient.ingredient.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized)) ||
-                recipe.description.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "").includes(searchTerm_normalized);
-
-    });
     results.innerHTML = '';
 
     if (matchingRecipes.length > 0) {
@@ -268,6 +278,7 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
     }
   });
 }
+
 
 
 // Utilise la recherche en fonction des evenements
