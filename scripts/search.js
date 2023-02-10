@@ -193,10 +193,15 @@ function crossRemoval() {
         removalTaggListRefresh(highlightedItems, target, ingredientsArrayFinale, applianceArrayFinale, ustensilsArrayFinale);
         removeHighlightedItem(compatibleRecipesFromTagg, recipes, highlightedItems);
         resultsContainer.innerHTML = '';
+        matchingRecipes = updateRecipes(recipes, searchInput, searchTerm); // recalcule en prennant en compte le contenu de la searchbar
         updateTaggList(highlightedItems, matchingRecipes)
-        updateRecipes(recipes, searchInput, searchTerm); // recalcule en prennant en compte le contenu de la searchbar
         htmlRecipes(updateRecipes(compatibleRecipesFromTagg, searchInput, searchTerm));
+        console.log(compatibleRecipesFromTagg)
       }
+      if (searchTerm.length > 2 && highlightedItems.length === 0) {
+        removeHighlightedItem(compatibleRecipesFromTagg, recipes, highlightedItems);
+      }
+
       // Remet à 0 l'affichage lorsqu'on clic sur le dernier tagg affiché (et si la recherche est vide également)
       if (searchTerm.length === 0 && highlightedItems.length === 0) {
         searchCase()
@@ -238,7 +243,6 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
       return;
     }
 
-
     // Recherche sur la searchbar pour les ingredients , les noms de plat et la description 
 
     var searchTerm_normalized = searchTerm.normalize('NFD').replace(/\p{Diacritic}/gu, "");
@@ -264,6 +268,7 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
     }
   });
 }
+
 
 // Utilise la recherche en fonction des evenements
 function searchCase() {
