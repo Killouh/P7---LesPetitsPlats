@@ -251,7 +251,6 @@ export function removalTaggListRefresh(highlightedItems, target, arrayIngredient
 // Génère l'affichage ingrédient apres une recherche sur le bouton ingrédient
 export function searchIngredientTagg(ingredientsArray, highlightedItem) {
   ingredientsArray = [...new Set(ingredientsArray)];
-  console.log(highlightedItem);
   const ingredientsArrayCaseSensitive = ingredientsArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
   const ingredientsArrayFinal = ingredientsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
   const ingredientsTagHtmlDiv = document.getElementById("ingredients-lists");
