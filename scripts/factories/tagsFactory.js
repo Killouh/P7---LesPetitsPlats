@@ -173,7 +173,7 @@ export function modifyListContent(ingredientsArray, appliancesArray, ustensilsAr
   const appliancesArrayCaseSensitive = appliancesArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
   const ustensilsArrayCaseSensitive = ustensilsArray.map(string => string.toLowerCase()).filter((string, index, self) => self.indexOf(string) === index);
 
-  // Remet la premiere lettre de la nouvelle array filtrée (sans doublons "case insensitives")
+  // Remet la premiere lettre Majuscule de la nouvelle array filtrée (sans doublons "case insensitives")
   const ingredientsArrayFinal = ingredientsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
   const applianceArrayFinal = appliancesArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));
   const ustensilsArrayFinal = ustensilsArrayCaseSensitive.map(string => string.charAt(0).toUpperCase() + string.slice(1)).sort((a, b) => a.localeCompare(b));

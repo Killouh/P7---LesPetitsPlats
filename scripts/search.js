@@ -195,7 +195,7 @@ function crossRemoval() {
         resultsContainer.innerHTML = '';
         updateTaggList(highlightedItems, matchingRecipes)
         updateRecipes(recipes, searchInput, searchTerm); // recalcule en prennant en compte le contenu de la searchbar
-        htmlRecipes(updateRecipes(recipes, searchInput, searchTerm));
+        htmlRecipes(updateRecipes(compatibleRecipesFromTagg, searchInput, searchTerm));
       }
       // Remet à 0 l'affichage lorsqu'on clic sur le dernier tagg affiché (et si la recherche est vide également)
       if (searchTerm.length === 0 && highlightedItems.length === 0) {
