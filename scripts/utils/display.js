@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 import { generateRecipeHTML } from '../factories/recipesFactory.js'
 
 // Affiche le contenu du bouton Tagg
@@ -36,7 +36,7 @@ export function hideMenuOnClick(container, miniSearch, objectTag, objectDiv, arr
       objectDiv.style.backgroundcolor = "none"
       objectTag.style.display = "block"
     }
-    if (event.target == arrow && arrow.contains(event.target)) {
+    if (event.target === arrow && arrow.contains(event.target)) {
 
       container.style.visibility = cssVisibility;
       miniSearch.style.visibility = cssVisibility;
