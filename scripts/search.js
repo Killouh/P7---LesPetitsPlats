@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import { recipes } from '../data/recipes.js'
 import { createTagListContent, displayListButtons, highLightedTagg, removalTaggListRefresh } from './factories/tagsFactory.js'
 import { translatebuttons } from '../scripts/utils/localisation.js'
