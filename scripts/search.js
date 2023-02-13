@@ -262,7 +262,7 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
       noResults.style.display = "none";
     }
 
-    if (matchingRecipes.length == 0) {
+    if (matchingRecipes.length === 0) {
       noResults.style.display = "block";
     }
   });

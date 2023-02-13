@@ -40,27 +40,27 @@ export function generateRecipeHTML(recipes) {
             ingredient.unit = ingredient.unit.replace(/cuillères à soupe/gi, 'cuillères');
           }
           // Met au singulier si un seul
-          if (ingredient.quantity == 1) {
+          if (ingredient.quantity === 1) {
             ingredient.unit = ingredient.unit.replace(/cuillères/gi, 'cuillère');
           }
           // Met au singulier si un seul
-          if (ingredient.quantity == 1) {
+          if (ingredient.quantity === 1) {
             ingredient.unit = ingredient.unit.replace(/sachets/gi, 'sachet');
           }
           // Met au singulier si un seul
-          if (ingredient.quantity == 1) {
+          if (ingredient.quantity === 1) {
             ingredient.unit = ingredient.unit.replace(/pincées/gi, 'pincée');
           }
           // Met au singulier si un seul
-          if (ingredient.quantity == 1) {
+          if (ingredient.quantity === 1) {
             ingredient.unit = ingredient.unit.replace(/tranches/gi, 'tranche');
           }
           // Met au singulier si un seul
-          if (ingredient.quantity == 1) {
+          if (ingredient.quantity === 1) {
             ingredient.unit = ingredient.unit.replace(/boites/gi, 'boite');
           }
           // Met au singulier si un seul
-          if (ingredient.quantity == 1) {
+          if (ingredient.quantity === 1) {
             ingredient.unit = ingredient.unit.replace(/barquettes/gi, 'barquette');
           }
           html += ` ${ingredient.unit}</span>`;
