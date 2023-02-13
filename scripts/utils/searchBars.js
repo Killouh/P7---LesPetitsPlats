@@ -1,4 +1,3 @@
-
 import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from '../factories/tagsFactory.js'
 
 // Searchbar Ingrédient

@@ -1,4 +1,3 @@
-
 import { generateRecipeHTML } from '../factories/recipesFactory.js'
 
 // Affiche le contenu du bouton Tagg
