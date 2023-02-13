@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 import { searchIngredientTagg, searchApplianceTagg, searchUstensilsTagg} from '../factories/tagsFactory.js'
 
 // Searchbar Ingrédient
@@ -6,7 +6,7 @@ export function minisearchbarIngredient(searchbar, resultsContainer, array, high
   searchbar.addEventListener('keyup', () => {
     const searchTerm = searchbar.value.toLowerCase();
 
-    if (searchTerm.length == 0) {
+    if (searchTerm.length === 0) {
       resultsContainer.innerHTML = '';
       searchIngredientTagg(array, highlightedItems);
       return;

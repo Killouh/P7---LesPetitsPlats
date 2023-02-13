@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 import { recipes } from '../data/recipes.js'
 import { createTagListContent, displayListButtons, highLightedTagg, removalTaggListRefresh } from './factories/tagsFactory.js'
 import { translatebuttons } from '../scripts/utils/localisation.js'
@@ -273,7 +273,7 @@ function searchbar(searchbar, results, noResults, compatibleRecipes) {
       noResults.style.display = "none";
     }
 
-    if (matchingRecipes.length == 0) {
+    if (matchingRecipes.length === 0) {
       noResults.style.display = "block";
     }
   });
